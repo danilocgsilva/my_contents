@@ -1,0 +1,17 @@
+services:
+  my_contents:
+    build:
+      context: .
+    container_name: my_contents
+    volumes:
+      - './www:/var/www'
+    ports:
+      - '3490:80'
+    working_dir: /var/www
+  my_contents_db:
+    image: 'mysql:latest'
+    container_name: my_contents_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=myverystrongpassword
+    ports:
+      - '3317:3306'
