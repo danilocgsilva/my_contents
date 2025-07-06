@@ -8,6 +8,7 @@ services:
     ports:
       - '3490:80'
       - '5173:5173'
+      - '8009:8009'
     working_dir: /var/www
   my_contents_db:
     image: 'mysql:latest'
