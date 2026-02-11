@@ -15,4 +15,9 @@ class Content implements ContentInterface
         // return $contentPersistingResults;
         throw new NoDataToSaveException();
     }
+
+    public function addMeta(MetaData $metaData): ContentInterface
+    {
+        throw new \Exception('Not implemented');
+    }
 }

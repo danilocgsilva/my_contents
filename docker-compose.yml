@@ -17,3 +17,15 @@ services:
       - MYSQL_ROOT_PASSWORD=myverystrongpassword
     ports:
       - '3317:3306'
+  my_contents_phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: my_contents_phpmyadmin
+    environment:
+      - PMA_HOST=my_contents_db
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=myverystrongpassword
+    ports:
+      - '8080:80'
+    depends_on:
+      - my_contents_db
