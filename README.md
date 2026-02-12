@@ -11,3 +11,7 @@ The current setup environment is designed to run in a development setup. It uses
 **Server:** For developmet, the application can run both served by Apache, or also using the Laravel server. Is the last case, run the `composer dev` command and use the port 8009.
 
 **Frontend:** Builded with node and Vite.
+
+## Tests
+
+To make tests works, the front must be builded. You can just keep the development server running before running tests. Just ensure that you run `composer dev` before running tests.

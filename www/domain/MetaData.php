@@ -11,4 +11,12 @@ class MetaData
         public readonly string|int $metaValue
     ) {
     }
+
+    public function toArray(): array
+    {
+        return [
+            'meta_name' => $this->metaName,
+            'meta_value' => $this->metaValue,
+        ];
+    }
 }
