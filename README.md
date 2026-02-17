@@ -10,8 +10,22 @@ The current setup environment is designed to run in a development setup. It uses
 
 **Server:** For developmet, the application can run both served by Apache, or also using the Laravel server. Is the last case, run the `composer dev` command and use the port 8009.
 
+In the root folder, you can find `start_server.sh` file. It works in Mac or Linux (not in Windows). Just make it executable and run to automacally start the development server.
+
 **Frontend:** Builded with node and Vite.
 
 ## Tests
 
 To make tests works, the front must be builded. You can just keep the development server running before running tests. Just ensure that you run `composer dev` before running tests.
+
+## Architecture
+
+The most generic entity in the application is the *Content*. Actually, its table is just one column, having the *content* id.
+
+All other information about the content is stored in the *Meta* data.
+
+This way allows the greatest flexibility for content data. Thus, not the most performant, as consuming the content data always means making a cross table query (*joins*), but the design was the one to allow the gratest flexibility.
+
+## Content Metadata
+
+Each *Metadata* entry belongs to a *Content*. Several metadata can belongs to the content.

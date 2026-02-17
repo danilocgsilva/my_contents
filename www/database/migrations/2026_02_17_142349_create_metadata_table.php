@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private CONST TABLE_NAME = 'contents';
+    private CONST TABLE_NAME = 'metadata';
+
     /**
      * Run the migrations.
      */
@@ -14,6 +15,8 @@ return new class extends Migration
     {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
+            $table->string('key');
+            $table->morphs('valueable');
             $table->timestamps();
         });
     }
