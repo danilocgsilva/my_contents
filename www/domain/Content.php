@@ -32,8 +32,12 @@ class Content implements ContentInterface
         //     $this->metaDataRepository->save($metaDatum);
         // })
         $persistedContent = $this->contentRepository->create();
-        foreach ($this->metaDatas as $metaData) {
-        }
+
+        array_walk($this->metaDatas, function ($metaData) use ($persistedContent) {
+            $metaData->setContentId($persistedContent->id);
+        });
+
+        dd($this->metaDatas);
 
         throw new NoDataToSaveException();
     }

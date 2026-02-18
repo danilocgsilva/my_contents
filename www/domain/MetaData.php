@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Domain;
 
+use App\Models\MetaData as MetaDataModel;
+
 class MetaData
 {
     private readonly int $contentId;
@@ -32,5 +34,10 @@ class MetaData
         }
         
         return $metaData;
+    }
+
+    public function toModel(): MetaDataModel
+    {
+        return MetaDataModel::make($this->toArray());
     }
 }
