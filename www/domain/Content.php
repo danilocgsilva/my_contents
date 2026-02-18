@@ -26,20 +26,19 @@ class Content implements ContentInterface
 
     public function persist(): ContentPersistingResults
     {
-        // $contentPersistingResults = new ContentPersistingResults([]);
-        // return $contentPersistingResults;
-        // foreach ($this->metaData as $metaData) {
-        //     $this->metaDataRepository->save($metaDatum);
-        // })
+        if (empty($this->metaDatas)) {
+            throw new NoDataToSaveException();
+        }
+
         $persistedContent = $this->contentRepository->create();
 
-        array_walk($this->metaDatas, function ($metaData) use ($persistedContent) {
+        array_walk($this->metaDatas, function (MetaData $metaData) use ($persistedContent) {
             $metaData->setContentId($persistedContent->id);
+            $metaDataModel = $metaData->toModel();
+            $metaDataModel->valueable->save();
+            $metaDataModel->valueable->metadata()->save($metaDataModel);
         });
-
-        dd($this->metaDatas);
-
-        throw new NoDataToSaveException();
+        return new ContentPersistingResults($this->metaDatas);
     }
 
     public function addMeta(MetaData $metaData): ContentInterface

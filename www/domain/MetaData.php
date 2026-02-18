@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Domain;
 
 use App\Models\MetaData as MetaDataModel;
+use App\Models\StringMetaData;
+use InvalidArgumentException;
 
 class MetaData
 {
@@ -38,6 +40,17 @@ class MetaData
 
     public function toModel(): MetaDataModel
     {
-        return MetaDataModel::make($this->toArray());
+        switch (gettype($this->metaValue)) {
+            case "string":
+                $valueMetaData = StringMetaData::make(['value' => $this->metaValue]);
+                break;
+            default:
+                throw new InvalidArgumentException('Unsupported meta value type');
+        }
+        
+        $metaData = MetaDataModel::make($this->toArray());
+        $metaData->setRelation('valueable', $valueMetaData);
+
+        return $metaData;
     }
 }

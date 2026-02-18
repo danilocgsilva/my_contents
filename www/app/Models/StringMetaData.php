@@ -7,6 +7,8 @@ use App\Models\MetaData;
 
 class StringMetaData extends Model
 {
+    public $timestamps = false;
+
     protected $table = 'string_metadata';
 
     protected $fillable = ['value'];
