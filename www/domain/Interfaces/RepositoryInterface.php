@@ -62,13 +62,4 @@ interface RepositoryInterface
      * @return Collection<T>
      */
     public function search(string $field, $value): Collection;
-
-    /**
-     * Paginate all registers.
-     *
-     * @param int $perPage
-     * @param int $page
-     * @return LengthAwarePaginator
-     */
-    public function paginate(int $perPage = 15, int $page = 1): LengthAwarePaginator;
 }

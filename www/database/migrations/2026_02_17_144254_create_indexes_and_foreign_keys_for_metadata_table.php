@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table(self::TABLE_NAME, function (Blueprint $table) {
             $table->foreignId('content_id')
                 ->constrained('contents', 'id');
-            $table->index(['content_id', 'key']);
+            $table->index(['content_id', 'meta_name']);
             $table->index(['valueable_id', 'valueable_type']);
         });
     }
@@ -28,7 +28,7 @@ return new class extends Migration
     {
         Schema::table('metadata', function (Blueprint $table) {
             $table->dropForeign(['content_id']);
-            $table->dropIndex(['content_id', 'key']);
+            $table->dropIndex(['content_id', 'meta_name']);
             $table->dropIndex(['valueable_id', 'valueable_type']);
         });
     }

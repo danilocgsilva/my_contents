@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Domain\Interfaces\MetaDataRepositoryInterace;
 use Infrastructure\Repositories\MetaDataRepository;
+use Domain\Interfaces\ContentRepositoryInterface;
+use Infrastructure\Repositories\ContentRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(MetaDataRepositoryInterace::class, MetaDataRepository::class);
+        $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
     }
 
     /**

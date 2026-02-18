@@ -6,18 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private CONST TABLE_NAME = 'metadata';
-
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
+        Schema::create('string_metadata', function (Blueprint $table) {
             $table->id();
-            $table->string('meta_name');
-            $table->morphs('valueable');
-            $table->timestamps();
+            $table->string('value');
         });
     }
 
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(self::TABLE_NAME);
+        Schema::dropIfExists('string_meta_data');
     }
 };

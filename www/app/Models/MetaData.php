@@ -9,7 +9,7 @@ class MetaData extends Model
 {
     protected $table = 'metadata';
 
-    protected $fillable = ['key'];
+    protected $fillable = ['meta_name', 'content_id'];
 
     public function content()
     {

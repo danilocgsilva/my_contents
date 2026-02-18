@@ -7,8 +7,11 @@ namespace Infrastructure\Repositories;
 use Domain\Interfaces\MetaDataRepositoryInterace;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\MetaData;
+use App\Models\StringMetaData;
+use Domain\Interfaces\PaginatableInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
-class MetaDataRepository implements MetaDataRepositoryInterace
+class MetaDataRepository implements MetaDataRepositoryInterace, PaginatableInterface
 {
     public function all(): Collection
     {
@@ -48,7 +51,7 @@ class MetaDataRepository implements MetaDataRepositoryInterace
         return MetaData::where($field, $value)->get();
     }
 
-    public function paginate(int $perPage = 15, int $page = 1): \Illuminate\Pagination\LengthAwarePaginator
+    public function paginate(int $perPage = 15, int $page = 1): LengthAwarePaginator
     {
         return MetaData::paginate($perPage, ['*'], 'page', $page);
     }

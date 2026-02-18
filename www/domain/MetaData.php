@@ -6,17 +6,31 @@ namespace Domain;
 
 class MetaData
 {
+    private readonly int $contentId;
+
     public function __construct(
         public readonly string $metaName,
         public readonly string|int $metaValue
     ) {
     }
 
+    public function setContentId(int $contentId): static
+    {
+        $this->contentId = $contentId;
+        return $this;
+    }
+
     public function toArray(): array
     {
-        return [
+        $metaData = [
             'meta_name' => $this->metaName,
             'meta_value' => $this->metaValue,
         ];
+        
+        if (isset($this->contentId)) {
+            $metaData['content_id'] = $this->contentId;
+        }
+        
+        return $metaData;
     }
 }
