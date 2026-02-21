@@ -6,6 +6,7 @@ namespace Domain;
 
 use App\Models\MetaData as MetaDataModel;
 use App\Models\StringMetaData;
+use App\Models\IntegerMetaData;
 use InvalidArgumentException;
 
 class MetaData
@@ -43,6 +44,9 @@ class MetaData
         switch (gettype($this->metaValue)) {
             case "string":
                 $valueMetaData = StringMetaData::make(['value' => $this->metaValue]);
+                break;
+            case "integer":
+                $valueMetaData = IntegerMetaData::make(['value' => $this->metaValue]);
                 break;
             default:
                 throw new InvalidArgumentException('Unsupported meta value type');

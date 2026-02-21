@@ -8,14 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('string_metadata', function (Blueprint $table) {
+        Schema::create('int_metadata', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
+            $table->integer('value');
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('string_metadata');
+        Schema::dropIfExists('int_metadata');
     }
 };

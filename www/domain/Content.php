@@ -35,8 +35,11 @@ class Content implements ContentInterface
         array_walk($this->metaDatas, function (MetaData $metaData) use ($persistedContent) {
             $metaData->setContentId($persistedContent->id);
             $metaDataModel = $metaData->toModel();
-            $metaDataModel->valueable->save();
-            $metaDataModel->valueable->metadata()->save($metaDataModel);
+
+            /** @var \App\Models\StringMetaData|\App\Models\IntegerMetaData */
+            $metaDataValueModel = $metaDataModel->valueable;
+            $metaDataValueModel->save();
+            $metaDataValueModel->metadata()->save($metaDataModel);
         });
         return new ContentPersistingResults($this->metaDatas);
     }

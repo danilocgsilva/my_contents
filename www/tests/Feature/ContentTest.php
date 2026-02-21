@@ -36,7 +36,7 @@ test("Add one content with two meta, the name and the age", function() {
     $content->persist();
 
     $this->assertDatabaseCount('contents', 1);
-    $this->assertDatabaseCount('metadata', 1);
+    $this->assertDatabaseCount('metadata', 2);
     $this->assertDatabaseCount('int_metadata', 1);
     $this->assertDatabaseCount('string_metadata', 1);
 });
