@@ -1,6 +1,10 @@
 #!/bin/bash
 
+set -e
+
 docker compose up -d --build
+echo Awaiting 20 seconds to allow the database startup
+sleep 20
 echo Creating the development database...
 docker exec -it my_contents_db mysql -uroot -pmyverystrongpassword -e "CREATE DATABASE IF NOT EXISTS my_contents;"
 echo Creating the test database...
