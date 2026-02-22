@@ -12,7 +12,6 @@ class ContentsController extends Controller
      */
     public function index()
     {
-        // return view('Contents.index');
         return Inertia::render('Contents/Index');
     }
 
@@ -21,7 +20,7 @@ class ContentsController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Contents/Create');
     }
 
     /**
