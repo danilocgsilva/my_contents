@@ -18,6 +18,7 @@
             <input
               type="text"
               id="meta-name"
+              v-model="metaName"
               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               placeholder="Ex: name"
             >
@@ -32,6 +33,7 @@
             <input
               type="text"
               id="meta-value"
+              v-model="metaValue"
               class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               placeholder="Value here"
             >
@@ -42,6 +44,7 @@
         <button
           type="button"
           class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 transition flex items-center justify-center gap-2"
+          @click="addMetadata"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +103,9 @@ export default {
   },
   data() {
     return {
+      metaName: '',
+      metaValue: '',
+      nextId: 3,
       metadataList: [
         {
           id: 1,
@@ -115,6 +121,21 @@ export default {
     }
   },
   methods: {
+    addMetadata() {
+      if (!this.metaName.trim() || !this.metaValue.trim()) {
+        alert('Please fill in both the metadata name and value.');
+        return;
+      }
+
+      this.metadataList.push({
+        id: this.nextId++,
+        name: this.metaName.trim(),
+        value: this.metaValue.trim()
+      });
+
+      this.metaName = '';
+      this.metaValue = '';
+    },
     removeMetadata(id) {
       let answer = confirm("Are you sure you want to remove this metadata?");
       if (answer) {
