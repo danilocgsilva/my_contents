@@ -58,44 +58,22 @@
           Add metadata
         </button>
 
-        <!-- Área para listar metadados adicionados -->
         <div class="mt-8">
           <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
             Metadata summary
           </h2>
           <div id="meta-list" class="space-y-4">
-            <!-- Exemplo de item de metadata -->
-            <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
-              <div>
-                <p class="font-medium text-gray-800 dark:text-gray-100">
-                  name
-                </p>
-                <p class="text-gray-600 dark:text-gray-400">
-                  My favorite movie
-                </p>
-              </div>
-              <button
-                type="button"
-                class="text-red-500 hover:text-red-700"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
+
+            <MetaDataAdded
+              v-for="metadata in metadataList"
+              :key="metadata.id"
+              :name="metadata.name"
+              :value="metadata.value"
+            />
+
           </div>
         </div>
 
-        <!-- Botão de submit -->
         <div class="flex justify-end">
           <button
             type="submit"
@@ -111,11 +89,29 @@
 
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue'
+import MetaDataAdded from '../../components/MetaDataAdded.vue';
 
 export default {
   name: 'ContentsCreate',
   components: {
     AppLayout,
+    MetaDataAdded
   },
+  data() {
+    return {
+      metadataList: [
+        {
+          id: 1,
+          name: "name",
+          value: "Danilo"
+        },
+        {
+          id: 2,
+          name: "birthdate",
+          value: "02/02/1987"
+        }
+      ]
+    }
+  }
 }
 </script>

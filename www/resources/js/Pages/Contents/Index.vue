@@ -1,6 +1,6 @@
 <template>
   <AppLayout>
-    <div>
+    <div class="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8">
       <h1 class="text-2xl font-bold mb-4">
         Contents Index Page
       </h1>
