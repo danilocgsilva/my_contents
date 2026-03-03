@@ -69,6 +69,7 @@
               :key="metadata.id"
               :name="metadata.name"
               :value="metadata.value"
+              @remove="removeMetadata(metadata.id)"
             />
 
           </div>
@@ -109,8 +110,16 @@ export default {
           id: 2,
           name: "birthdate",
           value: "02/02/1987"
-        }
+        } 
       ]
+    }
+  },
+  methods: {
+    removeMetadata(id) {
+      let answer = confirm("Are you sure you want to remove this metadata?");
+      if (answer) {
+        this.metadataList = this.metadataList.filter(metadata => metadata.id !== id);
+      }
     }
   }
 }
