@@ -26,6 +26,6 @@ services:
       - PMA_USER=root
       - PMA_PASSWORD=myverystrongpassword
     ports:
-      - '8080:80'
+      - '8079:80'
     depends_on:
       - my_contents_db

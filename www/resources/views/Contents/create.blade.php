@@ -77,7 +77,7 @@
 
 {{-- Main Content --}}
 @section('content')
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto">
         <div class="bg-white shadow-sm rounded-lg">
             <form action="{{ route('contents.store') }}" method="POST" class="space-y-6 p-6">
                 @csrf

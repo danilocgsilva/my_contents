@@ -21,3 +21,4 @@ docker exec -it my_contents composer install
 docker exec -it my_contents php artisan key:generate
 docker exec -it my_contents php artisan migrate
 docker exec -it my_contents php artisan migrate --env=testing
+docker exec -it my_contents npm install
