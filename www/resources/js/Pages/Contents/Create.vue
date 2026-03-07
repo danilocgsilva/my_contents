@@ -6,41 +6,11 @@
       </h1>
 
       <form class="space-y-6">
-        <!-- Campo para nome e valor do metadata -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <div class="flex-1">
-            <label
-              for="meta-name"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
-            >
-              Metadata Name
-            </label>
-            <input
-              type="text"
-              id="meta-name"
-              v-model="metaName"
-              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              placeholder="Ex: name"
-            >
-          </div>
-          <div class="flex-1">
-            <label
-              for="meta-value"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1"
-            >
-              Metadata Value
-            </label>
-            <input
-              type="text"
-              id="meta-value"
-              v-model="metaValue"
-              class="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-              placeholder="Value here"
-            >
-          </div>
-        </div>
-
-        <!-- Botão para adicionar novo campo -->
+        <AddingMetaDataInput
+          v-model:metaName="localMetaName"
+          v-model:metaValue="localMetaValue"
+        />
+        
         <button
           type="button"
           class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 transition flex items-center justify-center gap-2"
@@ -77,7 +47,6 @@
             />
 
             <p v-else>No metadata added</p>
-
           </div>
         </div>
 
@@ -85,6 +54,7 @@
           <button
             type="submit"
             class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 transition"
+
           >
             Save Content
           </button>
@@ -97,37 +67,38 @@
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue'
 import MetaDataAdded from '../../components/MetaDataAdded.vue';
+import AddingMetaDataInput from '../../components/AddingMetaDataInput.vue';
 
 export default {
   name: 'ContentsCreate',
   components: {
     AppLayout,
-    MetaDataAdded
+    MetaDataAdded,
+    AddingMetaDataInput
   },
   data() {
     return {
-      metaName: '',
-      metaValue: '',
-      nextId: 3,
-      metadataList: [
-      ]
+      localMetaName: '',
+      localMetaValue: '',
+      nextId: 1,
+      metadataList: []
     }
   },
   methods: {
     addMetadata() {
-      if (!this.metaName.trim() || !this.metaValue.trim()) {
+      if (!this.localMetaName.trim() || !this.localMetaValue.trim()) {
         alert('Please fill in both the metadata name and value.');
         return;
       }
 
       this.metadataList.push({
         id: this.nextId++,
-        name: this.metaName.trim(),
-        value: this.metaValue.trim()
+        name: this.localMetaName.trim(),
+        value: this.localMetaValue.trim()
       });
 
-      this.metaName = '';
-      this.metaValue = '';
+      this.localMetaName = '';
+      this.localMetaValue = '';
     },
     removeMetadata(id) {
       let answer = confirm("Are you sure you want to remove this metadata?");
