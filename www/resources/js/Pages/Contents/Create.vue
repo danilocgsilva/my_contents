@@ -68,12 +68,15 @@
           <div id="meta-list" class="space-y-4">
 
             <MetaDataAdded
+              v-if="metadataList.length"
               v-for="metadata in metadataList"
               :key="metadata.id"
               :name="metadata.name"
               :value="metadata.value"
               @remove="removeMetadata(metadata.id)"
             />
+
+            <p v-else>No metadata added</p>
 
           </div>
         </div>
@@ -107,16 +110,6 @@ export default {
       metaValue: '',
       nextId: 3,
       metadataList: [
-        {
-          id: 1,
-          name: "name",
-          value: "Danilo"
-        },
-        {
-          id: 2,
-          name: "birthdate",
-          value: "02/02/1987"
-        } 
       ]
     }
   },
