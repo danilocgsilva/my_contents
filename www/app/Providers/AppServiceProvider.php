@@ -7,6 +7,8 @@ use Domain\Interfaces\MetaDataRepositoryInterace;
 use Infrastructure\Repositories\MetaDataRepository;
 use Domain\Interfaces\ContentRepositoryInterface;
 use Infrastructure\Repositories\ContentRepository;
+use Domain\Interfaces\ContentInterface;
+use Domain\Content;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(MetaDataRepositoryInterace::class, MetaDataRepository::class);
         $this->app->bind(ContentRepositoryInterface::class, ContentRepository::class);
+        $this->app->bind(ContentInterface::class, Content::class);
     }
 
     /**

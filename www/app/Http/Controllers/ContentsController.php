@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\Content;
+use DB;
+use Domain\Interfaces\ContentInterface;
+use App\Http\Requests\ContentRequest;
 
 class ContentsController extends Controller
 {
@@ -27,22 +29,16 @@ class ContentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContentRequest $request)
     {
-        $validated = $request->validate([
-            'metadata' => 'required|array|min:1',
-            'metadata.*.name' => 'required|string',
-            'metadata.*.value' => 'required|string',
-        ]);
+        $content = app(ContentInterface::class);
 
-        $content = Content::create();
-        
-        foreach ($validated['metadata'] as $meta) {
-            $content->metadata()->create([
-                'name' => $meta['name'],
-                'value' => $meta['value'],
-            ]);
-        }
+        DB::transaction(function () use ($request, $content) {
+            foreach ($request->getMetaDatas() as $metaData) {
+                $content->addMeta($metaData);
+            }
+            $content->persist();
+        });
 
         return redirect()->route('contents.index');
     }

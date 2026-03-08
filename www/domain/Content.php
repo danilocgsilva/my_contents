@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Domain;
 
 use Domain\Interfaces\ContentInterface;
-use Domain\Interfaces\MetaDataRepositoryInterace;
 use Domain\Exceptions\NoDataToSaveException;
 use Domain\MetaData;
 use Domain\Interfaces\ContentRepositoryInterface;
@@ -19,7 +18,6 @@ class Content implements ContentInterface
     private array $metaDatas;
 
     public function __construct(
-        private MetaDataRepositoryInterace $metaDataRepository,
         private ContentRepositoryInterface $contentRepository
     ) {
     }

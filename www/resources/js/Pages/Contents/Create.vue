@@ -121,7 +121,7 @@ export default {
       }
 
       router.post('/contents', {
-        metadata: this.metadataList.map(({ name, value }) => ({ name, value }))
+        metadatas: this.metadataList.map(({ name, value }) => ({ name, value }))
       });
     }
   }
