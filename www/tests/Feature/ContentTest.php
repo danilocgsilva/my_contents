@@ -3,16 +3,22 @@
 use Domain\Content;
 use Domain\Exceptions\NoDataToSaveException;
 use Domain\MetaData;
+use Domain\Interfaces\ContentInterface;
 
-test('May return NoContentException if anything setted to save', function () {
+$content = null;
+
+beforeEach(function () use (&$content) {
     $content = $this->app->make(Content::class);
+});
+
+test('May return NoContentException if anything setted to save', function () use (&$content) {
     $content->persist();
 })->throws(NoDataToSaveException::class);
 
 test("Add one content with a single meta", function() {
-    $content = $this->app->make(Content::class);
-    $content->addMeta(new MetaData("name", "John Doe"));
-    $content->persist();
+    // $content = $this->app->make(Content::class);
+    $this->content->addMeta(new MetaData("name", "John Doe"));
+    $this->content->persist();
 
     $this->assertDatabaseCount('contents', 1);
     $this->assertDatabaseCount('metadata', 1);
@@ -20,9 +26,9 @@ test("Add one content with a single meta", function() {
 });
 
 test("Add one content with a single meta, but with a numerical one", function() {
-    $content = $this->app->make(Content::class);
-    $content->addMeta(new MetaData("age", 33));
-    $content->persist();
+    // $content = $this->app->make(Content::class);
+    $this->content->addMeta(new MetaData("age", 33));
+    $this->content->persist();
 
     $this->assertDatabaseCount('contents', 1);
     $this->assertDatabaseCount('metadata', 1);
@@ -30,10 +36,10 @@ test("Add one content with a single meta, but with a numerical one", function() 
 });
 
 test("Add one content with two meta, the name and the age", function() {
-    $content = $this->app->make(Content::class);
-    $content->addMeta(new MetaData("age", 33));
-    $content->addMeta(new MetaData("name", "Oliver Cohen"));
-    $content->persist();
+    // $content = $this->app->make(Content::class);
+    $this->content->addMeta(new MetaData("age", 33));
+    $this->content->addMeta(new MetaData("name", "Oliver Cohen"));
+    $this->content->persist();
 
     $this->assertDatabaseCount('contents', 1);
     $this->assertDatabaseCount('metadata', 2);
