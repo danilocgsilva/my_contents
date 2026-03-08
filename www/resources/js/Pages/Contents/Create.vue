@@ -9,6 +9,7 @@
         <AddingMetaDataInput
           v-model:metaName="localMetaName"
           v-model:metaValue="localMetaValue"
+          v-model:longText="localLongText"
         />
         
         <button
@@ -80,13 +81,14 @@ export default {
     return {
       localMetaName: '',
       localMetaValue: '',
+      localLongText: '',
       nextId: 1,
       metadataList: []
     }
   },
   methods: {
     addMetadata() {
-      if (!this.localMetaName.trim() || !this.localMetaValue.trim()) {
+      if (!this.localMetaName.trim() || (!this.localMetaValue.trim() && !this.localLongText.trim())) {
         alert('Please fill in both the metadata name and value.');
         return;
       }
@@ -94,11 +96,16 @@ export default {
       this.metadataList.push({
         id: this.nextId++,
         name: this.localMetaName.trim(),
-        value: this.localMetaValue.trim()
+        value: this.localMetaValue.trim() || this.localLongText.trim()
       });
 
-      this.localMetaName = '';
-      this.localMetaValue = '';
+      this.localMetaName = ''
+      if (this.localMetaValue.trim()) {
+        this.localMetaValue = '';
+      }
+      if (this.localLongText.trim()) {
+        this.localLongText = '';
+      }
     },
     removeMetadata(id) {
       let answer = confirm("Are you sure you want to remove this metadata?");
