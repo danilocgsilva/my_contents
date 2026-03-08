@@ -55,7 +55,7 @@
           <button
             type="submit"
             class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 transition"
-
+            @click.prevent="submitForm"
           >
             Save Content
           </button>
@@ -69,6 +69,7 @@
 import AppLayout from '../../Layouts/AppLayout.vue'
 import MetaDataAdded from '../../components/MetaDataAdded.vue';
 import AddingMetaDataInput from '../../components/AddingMetaDataInput.vue';
+import { router } from '@inertiajs/vue3';
 
 export default {
   name: 'ContentsCreate',
@@ -112,6 +113,16 @@ export default {
       if (answer) {
         this.metadataList = this.metadataList.filter(metadata => metadata.id !== id);
       }
+    },
+    submitForm() {
+      if (!this.metadataList.length) {
+        alert('Please add at least one metadata.');
+        return;
+      }
+
+      router.post('/contents', {
+        metadata: this.metadataList.map(({ name, value }) => ({ name, value }))
+      });
     }
   }
 }

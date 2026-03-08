@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Content;
 
 class ContentsController extends Controller
 {
@@ -28,7 +29,22 @@ class ContentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'metadata' => 'required|array|min:1',
+            'metadata.*.name' => 'required|string',
+            'metadata.*.value' => 'required|string',
+        ]);
+
+        $content = Content::create();
+        
+        foreach ($validated['metadata'] as $meta) {
+            $content->metadata()->create([
+                'name' => $meta['name'],
+                'value' => $meta['value'],
+            ]);
+        }
+
+        return redirect()->route('contents.index');
     }
 
     /**
