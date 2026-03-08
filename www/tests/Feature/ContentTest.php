@@ -48,3 +48,17 @@ test("Add one content with two meta, the name and the age", function() use (&$co
     $this->assertDatabaseCount('int_metadata', 1);
     $this->assertDatabaseCount('string_metadata', 1);
 });
+
+test("Check the meta content type written", function () use (&$content) {
+    $content->addMeta(new MetaData("age", 33));
+    $content->addMeta(new MetaData("name", "Oliver Cohen"));
+    $content->persist();
+
+    $this->assertDatabaseHas('int_metadata', [
+        'value' => 33,
+    ]);
+
+    $this->assertDatabaseHas('string_metadata', [
+        'value' => "Oliver Cohen",
+    ]);
+});
