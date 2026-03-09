@@ -7,15 +7,19 @@ use Inertia\Inertia;
 use DB;
 use Domain\Interfaces\ContentInterface;
 use App\Http\Requests\ContentRequest;
+use Domain\Interfaces\ContentRepositoryInterface;
 
 class ContentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ContentRepositoryInterface $contentRepository)
     {
-        return Inertia::render('Contents/Index');
+        $contents = $contentRepository->paginate(0, 10);
+        return Inertia::render('Contents/Index', [
+            'contents' => $contents
+        ]);
     }
 
     /**

@@ -5,23 +5,15 @@
       <h1 class="text-2xl font-bold mb-4">
         Contents Index Page
       </h1>
-
-
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-
-        <ShowingSingleMeta :tag="'Published'" :metaDatas="[{ metaName: 'name', metaValue: 'Danilo' }, { metaName: 'age', metaValue: 25 }, { metaName: 'type', metaValue: 'human' }, { metaName: 'size', metaValue: '120 kb' }]
-          " />
-        <ShowingSingleMeta :tag="'Published'" :metaDatas="[{ metaName: 'name', metaValue: 'Danilo' }, { metaName: 'age', metaValue: 25 }, { metaName: 'type', metaValue: 'human' }, { metaName: 'size', metaValue: '120 kb' }]
-        " />
-        <ShowingSingleMeta :metaDatas="[{ metaName: 'name', metaValue: 'Danilo' }, { metaName: 'age', metaValue: 25 }, { metaName: 'type', metaValue: 'human' }, { metaName: 'size', metaValue: '120 kb' }]
-        "/>
-
+        <ShowingSingleMeta v-for="content in formattedContents" :key="content.id" :metaDatas="content.metadata" />
       </ul>
     </div>
   </AppLayout>
 </template>
 
 <script>
+import { toHandlers } from 'vue';
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ShowingSingleMeta from '../../components/ShowingSingleMeta.vue'
 
@@ -32,10 +24,23 @@ export default {
     ShowingSingleMeta,
   },
   props: {
-    // Define any props you want to receive from your controller
+    contents: Object
   },
-  mounted() {
-    console.log('Contents index page loaded')
-  },
+  computed: {
+    formattedContents() {
+      let formattedContentsObj = this.contents.data.map(content => {
+        return {
+          id: content.id,
+          metadata: content.metadata.map(metadata => {
+            return {
+              metaName: metadata.meta_name,
+              metaValue: metadata.valueable.value
+            }
+          })
+        }
+      })
+      return formattedContentsObj;
+    }
+  }
 }
 </script>

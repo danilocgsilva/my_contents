@@ -23,7 +23,8 @@ class ContentRepository implements ContentRepositoryInterface
 
     public function paginate(int $page, int $perPage): LengthAwarePaginator
     {
-        return Content::paginate($perPage, ['*'], 'page', $page);
+        return Content::with('metadata.valueable')
+            ->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**
