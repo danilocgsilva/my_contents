@@ -1,20 +1,16 @@
 # Development environment
 
-The database name must be `my_contents`.
+The current setup environment is designed to run in a development setup.
 
-The current setup environment is designed to run in a development setup. It uses the Apache2 as web server. 
-Firts, build the environment with docker compose.
-Then, before starting the environment, don't you forget to:
-
-1. Allow www-data user and group access the `storage` folder.
-2. Ensure that the environment have a `.env`file available
-3. The .env file have the entry for `APP_KEY`. If not, just run the artisan command: `php artisan key:generate`.
+You will find the script `build_first_time.sh` to run to build the environment.
 
 **Server:** For developmet, the application can run both served by Apache, or also using the Laravel server. Is the last case, run the `composer dev` command and use the port 8009.
 
 In the root folder, you can find `start_server.sh` file. It works in Mac or Linux (not in Windows). Just make it executable and run to automacally start the development server. *Notice* the it assumes that the environment already has been built with Docker.
 
 **Frontend:** Builded with node and Vite.
+
+The command composer dev automatically builds the frontend for development. Check the `composer.json` file, in the `scripts` section.
 
 ## Tests
 
