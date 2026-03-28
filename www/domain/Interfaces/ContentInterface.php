@@ -12,4 +12,6 @@ interface ContentInterface
     public function persist(): ContentPersistingResults;
 
     public function addMeta(MetaData $metaData): self;
+
+    public function getMetas(): array;
 }

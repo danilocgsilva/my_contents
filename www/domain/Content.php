@@ -12,7 +12,8 @@ use Domain\Interfaces\ContentRepositoryInterface;
 class Content implements ContentInterface
 {
     /**
-     * Summary of metaData
+     * List of MetaDatas
+     * 
      * @var MetaData[]
      */
     private array $metaDatas;
@@ -28,10 +29,11 @@ class Content implements ContentInterface
             throw new NoDataToSaveException();
         }
 
-        $persistedContent = $this->contentRepository->create();
+        $this->contentRepository->create();
+        $contentId = $this->contentRepository->getCreatedId();
 
-        array_walk($this->metaDatas, function (MetaData $metaData) use ($persistedContent) {
-            $metaData->setContentId($persistedContent->id);
+        array_walk($this->metaDatas, function (MetaData $metaData) use ($contentId) {
+            $metaData->setContentId($contentId);
             $metaDataModel = $metaData->toModel();
 
             /** @var \App\Models\StringMetaData|\App\Models\IntegerMetaData */
@@ -46,5 +48,10 @@ class Content implements ContentInterface
     {
         $this->metaDatas[] = $metaData;
         return $this;
+    }
+
+    public function getMetas(): array
+    {
+        return $this->metaDatas;
     }
 }

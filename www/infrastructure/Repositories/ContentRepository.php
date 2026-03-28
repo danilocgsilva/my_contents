@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Infrastructure\Repositories;
 
 use Domain\Interfaces\ContentRepositoryInterface;
+use Domain\Content as DomainContent;
 use App\Models\Content;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContentRepository implements ContentRepositoryInterface
 {
+    /**
+     * @var int|null
+     */
+    private ?int $createdId;
+
     /**
      * Return all models registers.
      *
@@ -33,14 +39,16 @@ class ContentRepository implements ContentRepositoryInterface
      * @param int $id
      * @return Content|null
      */
-    public function find(int $id): ?Content
+    public function find(int $id): ?DomainContent
     {
-        return Content::find($id);
+        return Content::find($id)->toDomain();
     }
 
-    public function create(): Content
+    public function create(): DomainContent
     {
-        return Content::create([]);
+        $createdModel = Content::create([]);
+        $this->createdId = $createdModel->id;
+        return $createdModel->toDomain();
     }
 
     /**
@@ -56,5 +64,10 @@ class ContentRepository implements ContentRepositoryInterface
             return $content->delete();
         }
         return false;
+    }
+
+    public function getCreatedId(): int
+    {
+        return $this->createdId;
     }
 }

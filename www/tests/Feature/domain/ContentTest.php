@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Domain\Content;
 use Domain\Exceptions\NoDataToSaveException;
 use Domain\MetaData;
