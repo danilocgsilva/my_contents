@@ -25,6 +25,10 @@ interface ContentRepositoryInterface extends PaginatableInterface
      */
     public function find(int $id): ?Content;
 
+    /**
+     * Insert a new entry in the table contents.
+     * No need to set a content data.
+     */
     public function create(): Content;
 
     /**
