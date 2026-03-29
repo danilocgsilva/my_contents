@@ -31,12 +31,7 @@ export default {
       let formattedContentsObj = this.contents.map(content => {
         return {
           id: content.id,
-          metadata: content.metadata.map(metadata => {
-            return {
-              metaName: metadata.meta_name,
-              metaValue: metadata.valueable.value
-            }
-          })
+          metadata: content.metaDatasValues
         }
       })
       return formattedContentsObj;

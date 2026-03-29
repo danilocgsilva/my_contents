@@ -18,7 +18,14 @@ class Content implements ContentInterface
      */
     private array $metaDatas;
 
-    private ?int $id = null;
+    /**
+     * List of MetaDatas
+     * 
+     * @var MetaData[]
+     */
+    public readonly array $metaDatasValues;
+
+    public readonly ?int $id;
 
     public function __construct(
         private ContentRepositoryInterface $contentRepository
@@ -55,6 +62,27 @@ class Content implements ContentInterface
 
     public function getId(): int|null
     {
+        if (!isset($this->id)) {
+            return null;
+        }
         return $this->id;
+    }
+
+    public function makeMetaDatasAvailableAsProperty(): self
+    {
+        if (!isset($this->metaDatas)) {
+            $this->metaDatasValues = [];
+        } else {
+            $this->metaDatasValues = $this->metaDatas;
+        }
+        return $this;
+    }
+
+    public function getMetaDatasValuesAttribute(): array
+    {
+        if (!isset($this->metaDatasValues)) {
+            return [];
+        }
+        return $this->metaDatasValues;
     }
 }

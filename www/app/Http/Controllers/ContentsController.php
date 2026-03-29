@@ -16,7 +16,7 @@ class ContentsController extends Controller
      */
     public function index(ContentRepositoryInterface $contentRepository)
     {
-        $contents = $contentRepository->paginate(0, 10);
+        $contents = $contentRepository->rememberIds()->paginate(0, 10);
         return Inertia::render('Contents/Index', [
             'contents' => $contents
         ]);

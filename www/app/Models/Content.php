@@ -29,6 +29,7 @@ class Content extends Model
             $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value);
             $domainContent->addMeta($metaDataDomain);
         }
+        $domainContent->makeMetaDatasAvailableAsProperty();
         return $domainContent;
     }
 }
