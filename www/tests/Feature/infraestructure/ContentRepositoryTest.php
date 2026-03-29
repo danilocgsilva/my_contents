@@ -20,9 +20,19 @@ $createEntry = null;
 
 beforeEach(function () use (&$contentRepository, &$createEntry) {
     $contentRepository = $this->app->make(ContentRepositoryInterface::class);
-    $createEntry = function() {
+    /**
+     * 
+     * @var MetaData[] $metas
+     */
+    $createEntry = function(array $metaDatas = []) {
         $content = $this->app->make(ContentInterface::class);
-        $content->addMeta(new MetaData("name", "Robert"));
+        if (empty($metaDatas)) {
+            $metaDatas = [new MetaData("name", "Robert")];
+        }
+        foreach ($metaDatas as $metaData) {
+            $content->addMeta($metaData);
+        }
+        // $content->addMeta(new MetaData("name", "Robert"));
         $content->persist();
     };
 });
@@ -86,3 +96,32 @@ test('Don\'t preservers the id if not asked', function() use (&$createEntry, &$c
     $firstEntry = $entries[0];
     $this->assertSame(null, $firstEntry->getId());
 });
+
+test('Return of paginate - array', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->paginate(1, 10);
+    $this->assertIsArray($entries);
+});
+
+test('Entry type of paginate', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->paginate(1, 10);
+    $this->assertInstanceOf(Content::class, $entries[0]);
+});
+
+test('Check all metadatas are recovered after all method', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->all();
+    $firstEntry = $entries[0];
+    $metas = $firstEntry->getMetas();
+    $this->assertCount(1, $metas);
+});
+
+test('Check all metadatas are recovered after paginate method', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->paginate(1, 10);
+    $firstEntry = $entries[0];
+    $metas = $firstEntry->getMetas();
+    $this->assertCount(1, $metas);
+});
+

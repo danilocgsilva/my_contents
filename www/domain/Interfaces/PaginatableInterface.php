@@ -8,6 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface PaginatableInterface
 {
-    public function paginate(int $page, int $perPage): LengthAwarePaginator;
+    public function paginate(int $page, int $perPage): array;
 }
 

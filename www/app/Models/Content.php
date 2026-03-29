@@ -6,6 +6,7 @@ use App\Models\MetaData;
 use Domain\Interfaces\ContentInterface;
 use Illuminate\Database\Eloquent\Model;
 use Domain\Content as DomainContent;
+use Domain\MetaData as DomainMetaData;
 
 class Content extends Model
 {
@@ -24,6 +25,10 @@ class Content extends Model
     {
         $domainContent = $this->toDomain();
         $domainContent->setId($this->id);
+        foreach ($this->metadata as $metaData) {
+            $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value);
+            $domainContent->addMeta($metaDataDomain);
+        }
         return $domainContent;
     }
 }

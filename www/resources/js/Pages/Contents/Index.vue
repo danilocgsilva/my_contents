@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     formattedContents() {
-      let formattedContentsObj = this.contents.data.map(content => {
+      let formattedContentsObj = this.contents.map(content => {
         return {
           id: content.id,
           metadata: content.metadata.map(metadata => {

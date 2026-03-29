@@ -31,18 +31,8 @@ class Content implements ContentInterface
             throw new NoDataToSaveException();
         }
 
-        $this->contentRepository->create();
-        $contentId = $this->contentRepository->getCreatedId();
-
-        array_walk($this->metaDatas, function (MetaData $metaData) use ($contentId) {
-            $metaData->setContentId($contentId);
-            $metaDataModel = $metaData->toModel();
-
-            /** @var \App\Models\StringMetaData|\App\Models\IntegerMetaData */
-            $metaDataValueModel = $metaDataModel->valueable;
-            $metaDataValueModel->save();
-            $metaDataValueModel->metadata()->save($metaDataModel);
-        });
+        $this->contentRepository->save($this);
+        
         return new ContentPersistingResults($this->metaDatas);
     }
 

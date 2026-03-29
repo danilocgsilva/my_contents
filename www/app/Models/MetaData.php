@@ -21,9 +21,8 @@ class MetaData extends Model
         return $this->morphTo();
     }
 
-    public function getValueAttribute()
+    public function getValueAttribute(): string|int|null
     {
         return $this->valueable?->value;
     }
-
 }

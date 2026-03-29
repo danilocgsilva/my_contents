@@ -35,10 +35,24 @@ class ContentRepository implements ContentRepositoryInterface
         })->toArray();
     }
 
-    public function paginate(int $page, int $perPage): LengthAwarePaginator
+    /**
+     * @param int $page
+     * @param int $perPage
+     * 
+     * @return DomainContent[]
+     */
+    public function paginate(int $page, int $perPage): array
     {
-        return Content::with('metadata.valueable')
-            ->paginate($perPage, ['*'], 'page', $page);
+        $paginatedItems = Content::with('metadata.valueable')
+            ->paginate($perPage, ['*'], 'page', $page)
+            ->items();
+
+        return array_map(function ($item) {
+            if ($this->rememberIds) {
+                return $item->toDomainWithIds();
+            }
+            return $item->toDomain();
+        }, $paginatedItems);
     }
 
     /**
@@ -84,9 +98,6 @@ class ContentRepository implements ContentRepositoryInterface
 
     /**
      * @inheritDoc
-     * 
-     * @todo Look to Domain\Content::persist. There are some code repetition.
-     * May it is good to create a trait.
      */
     public function save(DomainContent $content): void
     {
