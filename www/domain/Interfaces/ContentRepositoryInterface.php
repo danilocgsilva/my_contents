@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Domain\Interfaces;
 
 use Domain\Interfaces\PaginatableInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Domain\Content;
 
 interface ContentRepositoryInterface extends PaginatableInterface
@@ -13,9 +12,9 @@ interface ContentRepositoryInterface extends PaginatableInterface
     /**
      * Return all models registers.
      *
-     * @return array<Content>
+     * @return Content[]
      */
-    public function all(): Collection;
+    public function all(): array;
 
     /**
      * Return one register by its id
@@ -39,5 +38,18 @@ interface ContentRepositoryInterface extends PaginatableInterface
      */
     public function delete(int $id): bool;
 
+    /**
+     * Get the create database id
+     * 
+     * @return void
+     */
     public function getCreatedId(): int;
+
+    /**
+     * Save the content to the database
+     * 
+     * @param Content $content
+     * @return void
+     */
+    public function save(Content $content): void;
 }

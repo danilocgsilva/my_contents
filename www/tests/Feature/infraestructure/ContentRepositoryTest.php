@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use Domain\Interfaces\ContentRepositoryInterface;
 use Domain\Interfaces\ContentInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Domain\MetaData;
+use Domain\Content;
 
 /**
  * @var ContentRepositoryInterface|null
@@ -16,10 +16,6 @@ $contentRepository = null;
  * @var \Function|null
  */
 $createEntry = null;
-
-// function createEntry() {
-//     $content = $this->app->make(ContentInterface::class);
-// }
 
 beforeEach(function () use (&$contentRepository, &$createEntry) {
     $contentRepository = $this->app->make(ContentRepositoryInterface::class);
@@ -47,5 +43,27 @@ test('Check the amount of generated content in contents table after three entrie
 test('Check the type of generated content', function () use (&$contentRepository, &$createEntry) {
     $createEntry();
     $allEntries = $contentRepository->all();
-    $this->assertInstanceOf(Collection::class, $allEntries);
+    $this->assertIsArray($allEntries);
+});
+
+test('Type of one content entry', function () use (&$contentRepository, &$createEntry) {
+    $createEntry();
+    $allEntries = $contentRepository->all();
+    $this->assertInstanceOf(Content::class, $allEntries[0]);
+});
+
+test('Save whole content with a meta tag', function () use (&$contentRepository) {
+    $this->assertDatabaseCount('contents', 0);
+    $this->assertDatabaseCount('metadata', 0);
+    $this->assertDatabaseCount('string_metadata', 0);
+
+    $content = $this->app->make(ContentInterface::class);
+    $metaData = new MetaData("name", "John Doe");
+    $content->addMeta($metaData);
+
+    $contentRepository->save($content);
+
+    $this->assertDatabaseCount('contents', 1);
+    $this->assertDatabaseCount('metadata', 1);
+    $this->assertDatabaseCount('string_metadata', 1);
 });
