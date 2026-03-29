@@ -52,4 +52,11 @@ interface ContentRepositoryInterface extends PaginatableInterface
      * @return void
      */
     public function save(Content $content): void;
+
+    /**
+     * When retrieving contents, records the content's database ids as well.
+     * 
+     * @return void
+     */
+    public function rememberIds(): self;
 }

@@ -6,6 +6,7 @@ use Domain\Interfaces\ContentRepositoryInterface;
 use Domain\Interfaces\ContentInterface;
 use Domain\MetaData;
 use Domain\Content;
+use DB;
 
 /**
  * @var ContentRepositoryInterface|null
@@ -66,4 +67,22 @@ test('Save whole content with a meta tag', function () use (&$contentRepository)
     $this->assertDatabaseCount('contents', 1);
     $this->assertDatabaseCount('metadata', 1);
     $this->assertDatabaseCount('string_metadata', 1);
+});
+
+test('Preserves content id from all content entries', function() use (&$createEntry, &$contentRepository) {
+    DB::statement('ALTER TABLE contents AUTO_INCREMENT = 1');
+
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->all();
+    $firstEntry = $entries[0];
+    $this->assertSame(1, $firstEntry->getId());
+});
+
+test('Don\'t preservers the id if not asked', function() use (&$createEntry, &$contentRepository) {
+    DB::statement('ALTER TABLE contents AUTO_INCREMENT = 1');
+
+    $createEntry();
+    $entries = $contentRepository->all();
+    $firstEntry = $entries[0];
+    $this->assertSame(null, $firstEntry->getId());
 });

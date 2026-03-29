@@ -14,4 +14,8 @@ interface ContentInterface
     public function addMeta(MetaData $metaData): self;
 
     public function getMetas(): array;
+
+    public function setId(int $id): self;
+
+    public function getId(): int|null;
 }

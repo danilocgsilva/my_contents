@@ -19,4 +19,11 @@ class Content extends Model
         $domainContent = app(ContentInterface::class);
         return $domainContent;
     }
+
+    public function toDomainWithIds(): DomainContent
+    {
+        $domainContent = $this->toDomain();
+        $domainContent->setId($this->id);
+        return $domainContent;
+    }
 }

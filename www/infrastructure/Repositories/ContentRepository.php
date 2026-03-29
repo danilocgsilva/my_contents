@@ -18,6 +18,8 @@ class ContentRepository implements ContentRepositoryInterface
      */
     private ?int $createdId;
 
+    private bool $rememberIds = false;
+
     /**
      * Return all models registers.
      *
@@ -25,7 +27,10 @@ class ContentRepository implements ContentRepositoryInterface
      */
     public function all(): array
     {
-        return Content::all()->map(function ($item, $key) {
+        return Content::all()->map(function ($item) {
+            if ($this->rememberIds) {
+                return $item->toDomainWithIds();
+            }
             return $item->toDomain();
         })->toArray();
     }
@@ -97,5 +102,11 @@ class ContentRepository implements ContentRepositoryInterface
             $metaDataValueModel->save();
             $metaDataValueModel->metadata()->save($metaDataModel);
         });
+    }
+
+    public function rememberIds(): self
+    {
+        $this->rememberIds = true;
+        return $this;
     }
 }

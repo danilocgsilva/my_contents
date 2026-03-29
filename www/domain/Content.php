@@ -18,6 +18,8 @@ class Content implements ContentInterface
      */
     private array $metaDatas;
 
+    private ?int $id = null;
+
     public function __construct(
         private ContentRepositoryInterface $contentRepository
     ) {
@@ -53,5 +55,16 @@ class Content implements ContentInterface
     public function getMetas(): array
     {
         return $this->metaDatas;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getId(): int|null
+    {
+        return $this->id;
     }
 }
