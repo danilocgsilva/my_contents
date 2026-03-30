@@ -8,12 +8,12 @@
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
         <ShowingSingleMeta v-for="content in formattedContents" :key="content.id" :metaDatas="content.metadata" />
       </ul>
+      <p>Next page: {{ nextPageUrl }}</p>
     </div>
   </AppLayout>
 </template>
 
 <script>
-import { toHandlers } from 'vue';
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ShowingSingleMeta from '../../components/ShowingSingleMeta.vue'
 
@@ -24,7 +24,8 @@ export default {
     ShowingSingleMeta,
   },
   props: {
-    contents: Object
+    contents: Object,
+    nextPageUrl: Object
   },
   computed: {
     formattedContents() {

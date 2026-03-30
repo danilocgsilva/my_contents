@@ -55,6 +55,17 @@ class ContentRepository implements ContentRepositoryInterface
         }, $paginatedItems);
     }
 
+    public function paginateWithLengthAware(int $page, int $perPage): LengthAwarePaginator
+    {
+        $lengthAwarePaginator = Content::with('metadata.valueable')
+            ->paginate($perPage, ['*'], 'page', $page)
+            ->through(function (Content $content) {
+                return $content->toDomainWithIds();
+            });
+
+        return $lengthAwarePaginator;
+    }
+
     /**
      * Return one register by its id
      *

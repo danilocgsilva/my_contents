@@ -9,5 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface PaginatableInterface
 {
     public function paginate(int $page, int $perPage): array;
+
+    public function paginateWithLengthAware(int $page, int $perPage): LengthAwarePaginator;
 }
 

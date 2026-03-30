@@ -14,11 +14,14 @@ class ContentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ContentRepositoryInterface $contentRepository)
+    public function index(ContentRepositoryInterface $contentRepository, Request $request)
     {
-        $contents = $contentRepository->rememberIds()->paginate(0, 10);
+        // $contents = $contentRepository->rememberIds()->paginate($request->query('page') ?? 0, 10);
+        $lengthAware = $contentRepository->rememberIds()->paginateWithLengthAware($request->query('page') ?? 0, 10);
+        $contents = $lengthAware->items();
         return Inertia::render('Contents/Index', [
-            'contents' => $contents
+            'contents' => $contents,
+            'nextPageUrl' => $lengthAware->nextPageUrl()
         ]);
     }
 
