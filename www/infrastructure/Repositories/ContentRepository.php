@@ -8,7 +8,6 @@ use Domain\Interfaces\ContentRepositoryInterface;
 use Domain\Content as DomainContent;
 use App\Models\Content;
 use Domain\MetaData;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContentRepository implements ContentRepositoryInterface

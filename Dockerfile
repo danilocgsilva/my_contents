@@ -12,6 +12,7 @@ COPY /config/xdebug.ini /etc/php/8.2/mods-available/
 COPY /config/startup.sh /startup.sh
 COPY /config/apache2.conf /etc/apache2/
 COPY /config/000-default.conf /etc/apache2/sites-available/
+COPY /config/php.ini /etc/php/8.2/apache2/
 RUN chmod +x /startup.sh
 
 CMD sh /startup.sh

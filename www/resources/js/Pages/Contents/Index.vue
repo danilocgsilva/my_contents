@@ -29,7 +29,7 @@
 
             <!-- Nearby pages -->
             <a href="?page=4" class="px-3 py-1 rounded-lg border text-sm bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">4</a>
-            <a href="?page=5" class="px-3 py-1 rounded-lg border text-sm bg-blue-600 text-white dark:bg-blue-500 dark:text-white">5</a>
+            <a href="#" class="px-3 py-1 rounded-lg border text-sm bg-blue-600 text-white dark:bg-blue-500 dark:text-white">{{ currentPage }}</a>
             <a href="?page=6" class="px-3 py-1 rounded-lg border text-sm bg-white text-gray-700 hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600">6</a>
 
             <!-- Ellipsis -->

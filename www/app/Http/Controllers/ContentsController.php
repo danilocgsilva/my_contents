@@ -8,6 +8,7 @@ use DB;
 use Domain\Interfaces\ContentInterface;
 use App\Http\Requests\ContentRequest;
 use Domain\Interfaces\ContentRepositoryInterface;
+use App\Views\Pagination;
 
 class ContentsController extends Controller
 {
@@ -18,17 +19,19 @@ class ContentsController extends Controller
     {
         // $contents = $contentRepository->rememberIds()->paginate($request->query('page') ?? 0, 10);
         $lengthAware = $contentRepository->rememberIds()->paginateWithLengthAware($request->query('page') ?? 0, 10);
-        $contents = $lengthAware->items();
+        // $contents = $lengthAware->items();
 
-        $nextPageUrl = $lengthAware->nextPageUrl();
-        $previousPageUrl = $lengthAware->previousPageUrl();
-        $currentPage = $lengthAware->currentPage();
+        // $nextPageUrl = $lengthAware->nextPageUrl();
+        // $previousPageUrl = $lengthAware->previousPageUrl();
+        // $currentPage = $lengthAware->currentPage();
+
+        $viewPagination = new Pagination($lengthAware);
 
         return Inertia::render('Contents/Index', [
-            'contents' => $contents,
-            'nextPageUrl' => $nextPageUrl,
-            'previousPageUrl' => $previousPageUrl,
-            'currentPage' => $currentPage
+            'contents' => $viewPagination->items,
+            'nextPageUrl' => $viewPagination->nextPageUrl,
+            'previousPageUrl' => $viewPagination->previousPageUrl,
+            'currentPage' => $viewPagination->currentPage
         ]);
     }
 
