@@ -8,15 +8,24 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            devServer: {
+                url: 'http://192.168.15.15:5173'
+            }
         }),
         tailwindcss(),
         vue(),
     ],
     server: {
-        host: 'localhost',
+        host: '192.168.15.15:5173',
         port: 5173,
+        origin: 'http://192.168.15.15:5173',
+        cors: {
+            origin: 'http://192.168.15.15:3490'
+        },
         hmr: {
-            host: 'localhost'
+            host: '192.168.15.15',
+            protocol: 'ws',
+            port: 5173
         }
     }
 });

@@ -76,7 +76,7 @@ export default {
     contents: Object,
     nextPageUrl: Object,
     previousPageUrl: Object,
-    currentPage: number
+    currentPage: Object
   },
   computed: {
     formattedContents() {
