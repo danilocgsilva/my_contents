@@ -19,9 +19,16 @@ class ContentsController extends Controller
         // $contents = $contentRepository->rememberIds()->paginate($request->query('page') ?? 0, 10);
         $lengthAware = $contentRepository->rememberIds()->paginateWithLengthAware($request->query('page') ?? 0, 10);
         $contents = $lengthAware->items();
+
+        $nextPageUrl = $lengthAware->nextPageUrl();
+        $previousPageUrl = $lengthAware->previousPageUrl();
+        $currentPage = $lengthAware->currentPage();
+
         return Inertia::render('Contents/Index', [
             'contents' => $contents,
-            'nextPageUrl' => $lengthAware->nextPageUrl()
+            'nextPageUrl' => $nextPageUrl,
+            'previousPageUrl' => $previousPageUrl,
+            'currentPage' => $currentPage
         ]);
     }
 
