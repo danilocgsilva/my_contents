@@ -8,14 +8,15 @@
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
         <ShowingSingleMeta v-for="content in formattedContents" :key="content.id" :metaDatas="content.metadata" />
       </ul>
-      <p>Next page: {{ nextPageUrl }}</p>
-      <p>Previous page: {{ previousPageUrl }}</p>
 
       <PaginationRow 
         :lastPage="lastPage" 
         :currentPage="currentPage" 
         :nextPageUrl="nextPageUrl" 
-        :previousPageUrl="previousPageUrl">
+        :previousPageUrl="previousPageUrl"
+        :nextPageNumber="nextPageNumber"
+        :previousPageNumber="previousPageNumber"
+      >
       </PaginationRow>
 
     </div>
@@ -40,7 +41,9 @@ export default {
     nextPageUrl: Object,
     previousPageUrl: Object,
     currentPage: Object,
-    lastPage: Object
+    lastPage: Object,
+    nextPageNumber: Object,
+    previousPageNumber: Object,
   },
   computed: {
     formattedContents() {
