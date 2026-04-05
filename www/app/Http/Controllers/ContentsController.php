@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use DB;
 use Domain\Interfaces\ContentInterface;
 use App\Http\Requests\ContentRequest;
+use App\Models\Content;
 use Domain\Interfaces\ContentRepositoryInterface;
 use App\Views\Pagination;
 
@@ -62,9 +63,13 @@ class ContentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Content $content)
     {
-        //
+        $content->load('metadata');
+        $domainContent = $content->toDomain();
+        return Inertia::render('Contents/Show', [
+            'content' => $domainContent
+        ]);
     }
 
     /**

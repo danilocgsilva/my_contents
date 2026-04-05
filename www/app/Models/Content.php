@@ -18,6 +18,11 @@ class Content extends Model
     public function toDomain(): DomainContent
     {
         $domainContent = app(ContentInterface::class);
+        foreach ($this->metadata as $metaData) {
+            $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value);
+            $domainContent->addMeta($metaDataDomain);
+        }
+        $domainContent->makeMetaDatasAvailableAsProperty();
         return $domainContent;
     }
 
@@ -25,11 +30,6 @@ class Content extends Model
     {
         $domainContent = $this->toDomain();
         $domainContent->setId($this->id);
-        foreach ($this->metadata as $metaData) {
-            $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value);
-            $domainContent->addMeta($metaDataDomain);
-        }
-        $domainContent->makeMetaDatasAvailableAsProperty();
         return $domainContent;
     }
 }

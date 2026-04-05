@@ -21,7 +21,6 @@ $createEntry = null;
 beforeEach(function () use (&$contentRepository, &$createEntry) {
     $contentRepository = $this->app->make(ContentRepositoryInterface::class);
     /**
-     * 
      * @var MetaData[] $metas
      */
     $createEntry = function(array $metaDatas = []) {
@@ -32,7 +31,6 @@ beforeEach(function () use (&$contentRepository, &$createEntry) {
         foreach ($metaDatas as $metaData) {
             $content->addMeta($metaData);
         }
-        // $content->addMeta(new MetaData("name", "Robert"));
         $content->persist();
     };
 });
@@ -103,7 +101,7 @@ test('Return of paginate - array', function() use (&$createEntry, &$contentRepos
     $this->assertIsArray($entries);
 });
 
-test('Entry type of paginate', function() use (&$createEntry, &$contentRepository) {
+test('Entry type of paginate must be Domain\Content', function() use (&$createEntry, &$contentRepository) {
     $createEntry();
     $entries = $contentRepository->rememberIds()->paginate(1, 10);
     $this->assertInstanceOf(Content::class, $entries[0]);
@@ -124,4 +122,5 @@ test('Check all metadatas are recovered after paginate method', function() use (
     $metas = $firstEntry->getMetas();
     $this->assertCount(1, $metas);
 });
+
 

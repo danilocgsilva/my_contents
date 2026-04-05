@@ -18,4 +18,6 @@ interface ContentInterface
     public function setId(int $id): self;
 
     public function getId(): int|null;
+
+    public function makeMetaDatasAvailableAsProperty(): self;
 }

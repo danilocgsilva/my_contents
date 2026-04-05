@@ -26,7 +26,7 @@
 
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue'
-import ShowingSingleMeta from '../../components/ShowingSingleMeta.vue'
+import ShowingSingleMeta from '../../components/ShowingContentMetas.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
 
 export default {
