@@ -6,6 +6,8 @@ You will find the script `build_first_time.sh` to run to build the environment.
 
 **Server:** For developmet, the application can run both served by Apache, or also using the Laravel server. Is the last case, run the `composer dev` command and use the port 8009.
 
+If You want to use Apache, you may use the port 3490 with your localhost. It also will works with remote development, include the hmr and further frontent assets.
+
 In the root folder, you can find `start_server.sh` file. It works in Mac or Linux (not in Windows). Just make it executable and run to automacally start the development server. *Notice* the it assumes that the environment already has been built with Docker.
 
 **Frontend:** Builded with node and Vite.

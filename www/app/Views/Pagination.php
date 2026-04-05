@@ -9,7 +9,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class Pagination
 {
     public readonly string $nextPageUrl;
-    public readonly string $previousPageUrl;
+    public readonly string|null $previousPageUrl;
     public readonly int $currentPage;
     public readonly array $items;
 
