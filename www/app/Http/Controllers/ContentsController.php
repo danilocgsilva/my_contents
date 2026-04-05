@@ -17,21 +17,16 @@ class ContentsController extends Controller
      */
     public function index(ContentRepositoryInterface $contentRepository, Request $request)
     {
-        // $contents = $contentRepository->rememberIds()->paginate($request->query('page') ?? 0, 10);
-        $lengthAware = $contentRepository->rememberIds()->paginateWithLengthAware($request->query('page') ?? 0, 10);
-        // $contents = $lengthAware->items();
-
-        // $nextPageUrl = $lengthAware->nextPageUrl();
-        // $previousPageUrl = $lengthAware->previousPageUrl();
-        // $currentPage = $lengthAware->currentPage();
-
-        $viewPagination = new Pagination($lengthAware);
-
         return Inertia::render('Contents/Index', [
-            'contents' => $viewPagination->items,
+            'contents' => ($viewPagination = new Pagination(
+                $contentRepository
+                    ->rememberIds()
+                    ->paginateWithLengthAware($request->query('page') ?? 1, 10)
+            ))->items,
             'nextPageUrl' => $viewPagination->nextPageUrl,
             'previousPageUrl' => $viewPagination->previousPageUrl,
-            'currentPage' => $viewPagination->currentPage
+            'currentPage' => $viewPagination->currentPage,
+            'lastPage' => $viewPagination->lastPage
         ]);
     }
 
