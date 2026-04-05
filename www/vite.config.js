@@ -3,27 +3,24 @@ import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 
+const host = process.env.VITE_HOST || 'localhost';
+
 export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true,
-            devServer: {
-                url: 'http://192.168.15.15:5173'
-            }
+            refresh: true
         }),
         tailwindcss(),
         vue(),
     ],
     server: {
-        host: '192.168.15.15:5173',
+        host: '0.0.0.0',
         port: 5173,
-        origin: 'http://192.168.15.15:5173',
-        cors: {
-            origin: 'http://192.168.15.15:3490'
-        },
+        origin: `http://${host}:5173`,
+        cors: true,
         hmr: {
-            host: '192.168.15.15',
+            host: `${host}`,
             protocol: 'ws',
             port: 5173
         }
