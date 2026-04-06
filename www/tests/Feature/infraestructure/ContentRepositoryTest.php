@@ -123,4 +123,3 @@ test('Check all metadatas are recovered after paginate method', function() use (
     $this->assertCount(1, $metas);
 });
 
-

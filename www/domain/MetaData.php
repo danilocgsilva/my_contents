@@ -7,7 +7,9 @@ namespace Domain;
 use App\Models\MetaData as MetaDataModel;
 use App\Models\StringMetaData;
 use App\Models\IntegerMetaData;
+use App\Models\DatetimeMetaData;
 use InvalidArgumentException;
+use DateTime;
 
 class MetaData
 {
@@ -15,7 +17,7 @@ class MetaData
 
     public function __construct(
         public readonly string $metaName,
-        public readonly string|int $metaValue
+        public readonly string|int|DateTime $metaValue
     ) {
     }
 
@@ -47,6 +49,9 @@ class MetaData
                 break;
             case "integer":
                 $valueMetaData = IntegerMetaData::make(['value' => $this->metaValue]);
+                break;
+            case "DateTime":
+                $valueMetaData = DatetimeMetaData::make(['value' => $this->metaValue]);
                 break;
             default:
                 throw new InvalidArgumentException('Unsupported meta value type');

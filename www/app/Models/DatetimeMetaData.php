@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MetaData;
 
-class IntegerMetaData extends Model
+class DatetimeMetaData extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'int_metadata';
-    
+    protected $table = 'datetime_metadata';
+
     protected $fillable = ['value'];
 
     public function metadata()
@@ -19,3 +20,4 @@ class IntegerMetaData extends Model
         return $this->morphOne(MetaData::class, 'valueable');
     }
 }
+
