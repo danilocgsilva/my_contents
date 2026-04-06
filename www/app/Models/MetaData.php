@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Content;
+use DateTime;
 
 class MetaData extends Model
 {
@@ -18,10 +19,10 @@ class MetaData extends Model
 
     public function valueable()
     {
-        return $this->morphTo();
+        return $this->morphTo(__FUNCTION__, 'valueable_type', 'valueable_id');
     }
 
-    public function getValueAttribute(): string|int|null
+    public function getValueAttribute(): string|int|DateTime|null
     {
         return $this->valueable?->value;
     }
