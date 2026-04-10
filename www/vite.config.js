@@ -1,28 +1,32 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 
-const host = process.env.VITE_HOST || 'localhost';
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
 
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
-            refresh: true
-        }),
-        tailwindcss(),
-        vue(),
-    ],
-    server: {
-        host: '0.0.0.0',
-        port: 5173,
-        origin: `http://${host}:5173`,
-        cors: true,
-        hmr: {
-            host: `${host}`,
-            protocol: 'ws',
-            port: 5173
-        }
-    }
+    const host = env.VITE_HOST || 'localhost';
+
+    return {
+        plugins: [
+            laravel({
+                input: ['resources/css/app.css', 'resources/js/app.js'],
+                refresh: true,
+            }),
+            tailwindcss(),
+            vue(),
+        ],
+        server: {
+            host: '0.0.0.0',
+            port: 5173,
+            origin: `http://${host}:5173`,
+            cors: true,
+            hmr: {
+                host,
+                protocol: 'ws',
+                port: 5173,
+            },
+        },
+    };
 });
