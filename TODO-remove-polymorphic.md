@@ -411,3 +411,217 @@ If you want, I can rewrite your **Laravel migrations** and show exactly how to e
 * correct typing
 * and even add a clean accessor like `$metadata->value` that feels just like polymorphism 👍
 
+## Question 3
+
+I understood and seems like it have more advantages to drop the polymorphic relationship. But there's something that make me real bothered: the problem is that the parent model (Metadata) must have a relationship method both for StringMetadata and IntMetadata. It can confuse the developer, because he may wonders that the MetaData can relate to both StringMetadata and IntMetadata at once, and I don't want this by design. Is there a way to follows your recommendation to drop morphTo relationship, but keep just one relationship method, that can relate to StringMetadata or IntMetadata at once?
+
+## Answer 3
+
+Yeah — that discomfort you’re feeling is **100% valid**, and it’s actually a sign you’re thinking about *good domain design*, not just “making Laravel work”.
+
+You want:
+
+* ✅ DB integrity (no polymorphic FK issues)
+* ✅ Clean API (only **one** relationship)
+* ❌ Avoid misleading methods like `stringValue()` and `intValue()`
+
+Let’s be very direct:
+
+> ❗ **Laravel does NOT have a built-in relationship that behaves like `morphTo` but with FK enforcement.**
+
+So we need to *simulate* that clean API.
+
+---
+
+# ✅ Best practical solution: **Single “virtual” relationship**
+
+You keep the **strict DB design**, but expose **only one logical accessor** in your model.
+
+---
+
+## 🧱 Database (same as before — correct design)
+
+* `metadata`
+* `string_metadata (metadata_id FK)`
+* `int_metadata (metadata_id FK)`
+
+---
+
+## 🧠 Model design trick
+
+Instead of exposing both relations, you:
+
+* Keep them **private/internal**
+* Expose only **one public method: `value()`**
+
+---
+
+## ✨ Clean implementation
+
+### Metadata.php
+
+```php
+class Metadata extends Model
+{
+    // Internal relations (hidden from devs)
+    protected function stringValueRelation()
+    {
+        return $this->hasOne(StringMetadata::class);
+    }
+
+    protected function intValueRelation()
+    {
+        return $this->hasOne(IntMetadata::class);
+    }
+
+    // ✅ The ONLY public API
+    public function value()
+    {
+        return match ($this->type) {
+            'string' => $this->stringValueRelation()->first(),
+            'int' => $this->intValueRelation()->first(),
+            default => null,
+        };
+    }
+}
+```
+
+---
+
+## ✅ Usage (clean and safe)
+
+```php
+$metadata->value()->value;
+```
+
+👉 Developer sees:
+
+* only **one entry point**
+* no confusion
+* matches your domain rule: “metadata has ONE value”
+
+---
+
+# 🔥 Even better: make it feel like a property
+
+You can make it even cleaner:
+
+```php
+public function getValueAttribute()
+{
+    return match ($this->type) {
+        'string' => optional($this->stringValueRelation()->first())->value,
+        'int' => optional($this->intValueRelation()->first())->value,
+    };
+}
+```
+
+---
+
+## ✅ Now usage becomes:
+
+```php
+$metadata->value
+```
+
+💥 This feels exactly like polymorphic — but is:
+
+* type-safe
+* FK-safe
+* domain-correct
+
+---
+
+# 🚀 Bonus: enforce correctness at DB level
+
+To guarantee **only one child exists**, add:
+
+### In `string_metadata`
+
+```sql
+UNIQUE(metadata_id)
+```
+
+### In `int_metadata`
+
+```sql
+UNIQUE(metadata_id)
+```
+
+And optionally enforce consistency:
+
+* via application logic
+* or DB CHECK constraint (if supported)
+
+---
+
+# 🧠 Architectural insight (important)
+
+What you're really building is:
+
+> A **“typed value object” pattern**, not true polymorphism.
+
+That’s why:
+
+* polymorphic relations feel convenient
+* but structurally incorrect for your case
+
+---
+
+# ❗ Alternative (if you want TRUE single relation)
+
+There *is* one more option:
+
+## 👉 Single table for values
+
+```sql
+metadata_values
+- id
+- metadata_id (FK)
+- type (string, int)
+- string_value NULL
+- int_value NULL
+```
+
+Then:
+
+```php
+public function value()
+{
+    return $this->hasOne(MetadataValue::class);
+}
+```
+
+✔ One relationship
+✔ FK enforced
+❌ Less normalized
+❌ More nullable columns
+
+---
+
+# 🏁 Final recommendation
+
+Given your concern:
+
+👉 **Keep separate tables + FK (your current redesign)**
+👉 Hide internal relations
+👉 Expose only:
+
+```php
+$metadata->value
+```
+
+That gives you:
+
+* ✅ Clean developer experience
+* ✅ No ambiguity
+* ✅ Strong database integrity
+* ✅ Laravel-friendly
+
+---
+
+If you want, I can go one step further and show how to:
+
+* eager load this properly (without N+1)
+* or build a **custom Eloquent relation class** that behaves almost like `morphTo` but backed by your schema (more advanced, but very powerful)
+
