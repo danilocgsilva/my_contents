@@ -22,7 +22,7 @@ class MetaData extends Model
         return $this->morphTo(__FUNCTION__, 'valueable_type', 'valueable_id');
     }
 
-    public function getValueAttribute(): string|int|DateTime|null
+    public function getValueAttribute(): string|int|bool|DateTime|null
     {
         return $this->valueable?->value;
     }
