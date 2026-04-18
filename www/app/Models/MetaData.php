@@ -32,7 +32,7 @@ class MetaData extends Model
         return $this->belongsToMany(MetaData::class, 'metadata_metadata', 'parent_id', 'child_id');
     }
 
-    public function getValueAttribute(): string|int|bool|DateTime|null
+    public function getValueAttribute(): string|int|float|bool|DateTime|null
     {
         return $this->valueable?->value;
     }
