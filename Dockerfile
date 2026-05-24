@@ -7,9 +7,11 @@ RUN apt-get install zip -y
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 # RUN apt-get install php-mysql -y
 # RUN apt-get install php php-mysql php-xdebug php-curl php-zip php-xml php-mbstring -y
-RUN pecl install xdebug
+# RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
+RUN docker-php-ext-install pcntl
 # RUN pecl install mysql
+# RUN pecl install pcntl
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 # RUN apt-get install mariadb-client -y
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash - 
