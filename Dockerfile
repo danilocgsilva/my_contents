@@ -7,8 +7,9 @@ RUN apt-get install zip -y
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 # RUN apt-get install php-mysql -y
 # RUN apt-get install php php-mysql php-xdebug php-curl php-zip php-xml php-mbstring -y
-# RUN pecl install xdebug
+RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
+COPY /config/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN docker-php-ext-install pcntl
 # RUN pecl install mysql
 # RUN pecl install pcntl

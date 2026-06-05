@@ -6,7 +6,11 @@
         Contents Index Page
       </h1>
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-        <ShowingSingleMeta v-for="content in formattedContents" :key="content.id" :metaDatas="content.metadata" />
+        <ContentEntry
+          v-for="content in formattedContents" 
+          :content="content" 
+          :key="content.id" 
+          :metaDatas="content.metadata" />
       </ul>
 
       <PaginationRow 
@@ -26,14 +30,14 @@
 
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue'
-import ShowingSingleMeta from '../../components/ShowingContentMetas.vue'
+import ContentEntry from '../../components/ContentEntry.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
 
 export default {
   name: 'ContentsIndex',
   components: {
     AppLayout,
-    ShowingSingleMeta,
+    ContentEntry,
     PaginationRow,
   },
   props: {

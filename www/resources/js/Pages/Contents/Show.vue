@@ -7,7 +7,10 @@
       </h1>
 
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-        <ShowingContentMetas :key="formattedContent.id" :metaDatas="formattedContent.metadata" />
+        <ContentEntry 
+          :content="formattedContent" 
+          :metaDatas="formattedContent.metadata" 
+        />
       </ul>
 
     </div>
@@ -17,13 +20,13 @@
 
 <script>
 import AppLayout from '../../Layouts/AppLayout.vue';
-import ShowingContentMetas from '../../components/ShowingContentMetas.vue';
+import ContentEntry from '../../components/ContentEntry.vue';
 
 export default {
   name: 'ContentsShow',
   components: {
     AppLayout,
-    ShowingContentMetas
+    ContentEntry
   },
   props: {
     content: Object
@@ -32,7 +35,7 @@ export default {
     formattedContent() {
       return {
         id: this.content.id,
-        metadata: this.content.metaDatasValues
+        metadata: this.content.metaDatasValues ?? []
       }
     }
   }

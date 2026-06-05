@@ -1,0 +1,20 @@
+{
+    "name": "mycontents",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "my_contents",
+    "workspaceFolder": "/var/www",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "devsense.composer-php-vscode",
+                "devsense.intelli-php-vscode",
+                "devsense.phptools-vscode",
+                "devsense.profiler-php-vscode",
+                "vue.volar"
+            ],
+            "settings": {
+                "editor.formatOnSave": true
+            }
+        }
+    }
+}

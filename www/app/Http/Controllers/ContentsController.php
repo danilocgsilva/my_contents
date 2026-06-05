@@ -66,7 +66,7 @@ class ContentsController extends Controller
     public function show(Content $content)
     {
         $content->load('metadata');
-        $domainContent = $content->toDomain();
+        $domainContent = $content->toDomainWithIds();
         return Inertia::render('Contents/Show', [
             'content' => $domainContent
         ]);
