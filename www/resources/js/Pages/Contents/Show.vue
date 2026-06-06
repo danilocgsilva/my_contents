@@ -1,3 +1,5 @@
+Here's the updated `Show.vue` component with a secure delete functionality:
+
 <template>
   <AppLayout>
     <div
@@ -12,27 +14,40 @@
           :metaDatas="formattedContent.metadata" 
         >
         <template #actions>
-                      <a :href="route('contents.show', { content: content.id })" type="button" class="
-          w-full 
-          sm:w-auto 
-          px-6 py-2 
-          bg-blue-600 
-          text-white 
-          rounded-lg 
-          hover:bg-blue-700 
-          focus:outline-none 
-          focus:ring-2
-          focus:ring-blue-500 
-          focus:ring-offset-2 
-          focus:ring-offset-white 
-          dark:focus:ring-offset-gray-800 
-          transition 
-          flex 
-          items-center 
-          gap-2
-        ">
+          <form 
+            :action="route('contents.destroy', { content: content.id })" 
+            method="POST" 
+            @submit.prevent="confirmDelete"
+            class="inline-block"
+          >
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" :value="csrfToken">
+            
+            <button
+              type="submit"
+              class="
+                w-full 
+                sm:w-auto 
+                px-6 py-2 
+                bg-red-600 
+                text-white 
+                rounded-lg 
+                hover:bg-red-700 
+                focus:outline-none 
+                focus:ring-2
+                focus:ring-red-500 
+                focus:ring-offset-2 
+                focus:ring-offset-white 
+                dark:focus:ring-offset-gray-800 
+                transition 
+                flex 
+                items-center 
+                gap-2
+              "
+            >
               Delete
-            </a>
+            </button>
+          </form>
         </template>
         </ContentEntry>
       </ul>
@@ -53,13 +68,21 @@ export default {
     ContentEntry
   },
   props: {
-    content: Object
+    content: Object,
+    csrfToken: String // Add this prop to receive CSRF token
   },
   computed: {
     formattedContent() {
       return {
         id: this.content.id,
         metadata: this.content.metaDatasValues ?? []
+      }
+    }
+  },
+  methods: {
+    confirmDelete(event) {
+      if (confirm('Are you sure you want to delete this content?')) {
+        event.target.submit();
       }
     }
   }

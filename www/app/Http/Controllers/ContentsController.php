@@ -68,7 +68,8 @@ class ContentsController extends Controller
         $content->load('metadata');
         $domainContent = $content->toDomainWithIds();
         return Inertia::render('Contents/Show', [
-            'content' => $domainContent
+            'content' => $domainContent,
+            'csrfToken' => csrf_token(),
         ]);
     }
 
