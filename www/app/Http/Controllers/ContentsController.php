@@ -18,10 +18,15 @@ class ContentsController extends Controller
      */
     public function index(ContentRepositoryInterface $contentRepository, Request $request)
     {
+        if ($request->has('page')) {
+            session(['pagination_number' => $request->query('page')]);
+        }
+        $paginationNumber = $request->query('page') ?? session('pagination_number', 1);
+        
         $viewPagination = new Pagination(
             $contentRepository
                 ->rememberIds()
-                ->paginateWithLengthAware($request->query('page') ?? 1, 10)
+                ->paginateWithLengthAware($paginationNumber, 10)
         );
 
         return Inertia::render('Contents/Index', [
@@ -95,6 +100,7 @@ class ContentsController extends Controller
     public function destroy(string $id, ContentRepositoryInterface $contentRepositoryInterface)
     {
         $contentRepositoryInterface->delete($id);
-        return redirect()->route('contents.index');
+        $paginationNumber = session('pagination_number', 1);
+        return redirect()->route('contents.index', ['page' => $paginationNumber]);
     }
 }
