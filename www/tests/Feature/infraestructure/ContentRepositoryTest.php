@@ -123,3 +123,12 @@ test('Check all metadatas are recovered after paginate method', function() use (
     $this->assertCount(1, $metas);
 });
 
+test('Delete content', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $this->assertDatabaseCount('contents', 1);
+    $entries = $contentRepository->rememberIds()->all();
+    /** @var Content $firstEntry */
+    $firstEntry = $entries[0];
+    $contentRepository->delete($firstEntry->id);
+    $this->assertDatabaseCount('contents', 0);
+});

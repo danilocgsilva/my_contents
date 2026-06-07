@@ -92,7 +92,13 @@ class ContentRepository implements ContentRepositoryInterface
     public function delete(int $id): bool
     {
         $content = Content::find($id);
+
         if ($content) {
+            $metadatas = $content->metadata;
+            foreach ($metadatas as $metadata) {
+                $metadata->valueable()->delete();
+                $metadata->delete();
+            }
             return $content->delete();
         }
         return false;

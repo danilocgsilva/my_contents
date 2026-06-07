@@ -55,7 +55,7 @@ class ContentsController extends Controller
                 $content->addMeta($metaData);
             }
             $content->persist();
-        });
+        }); 
 
         return redirect()->route('contents.index');
     }
@@ -92,8 +92,9 @@ class ContentsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, ContentRepositoryInterface $contentRepositoryInterface)
     {
-        //
+        $contentRepositoryInterface->delete($id);
+        return redirect()->route('contents.index');
     }
 }
