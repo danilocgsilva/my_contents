@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
     <header class="border-b border-gray-200 dark:border-gray-700">
-      <div class="w-full max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="w-full max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto px-4 py-3 flex items-center gap-6">
         <div class="flex items-center space-x-2">
           <h1 class="text-xl font-semibold">My Contents</h1>
           <button 
@@ -15,14 +15,14 @@
           </button>
         </div>
         
-        <div class="hidden lg:flex items-center space-x-6">
+        <div class="hidden lg:flex items-center space-x-6 flex-1">
           <a href="#" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
           <a href="#" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Articles</a>
           <a href="#" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About</a>
           <a href="#" class="font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
         </div>
         
-        <ThemeToggle />
+        <div class="ml-auto"><ThemeToggle /></div>
       </div>
       
       <!-- Mobile menu -->
