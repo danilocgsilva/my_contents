@@ -81,9 +81,12 @@ class ContentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Content $content)
     {
-        //
+        $content = $content->toDomainWithIds();
+        return Inertia::render('Contents/Edit', [
+            'content' => $content
+        ]);
     }
 
     /**
