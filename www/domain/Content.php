@@ -18,12 +18,12 @@ class Content implements ContentInterface
      */
     private array $metaDatas;
 
-    /**
-     * List of MetaDatas
-     * 
-     * @var MetaData[]
-     */
-    public readonly array $metaDatasValues;
+    // /**
+    //  * List of MetaDatas
+    //  * 
+    //  * @var MetaData[]
+    //  */
+    // public readonly array $metaDatasValues;
 
     public readonly ?int $id;
 
@@ -38,7 +38,7 @@ class Content implements ContentInterface
             throw new NoDataToSaveException();
         }
 
-        $this->contentRepository->save($this);
+        $this->contentRepository->add($this);
         
         return new ContentPersistingResults($this->metaDatas);
     }
@@ -68,21 +68,21 @@ class Content implements ContentInterface
         return $this->id;
     }
 
-    public function makeMetaDatasAvailableAsProperty(): self
-    {
-        if (!isset($this->metaDatas)) {
-            $this->metaDatasValues = [];
-        } else {
-            $this->metaDatasValues = $this->metaDatas;
-        }
-        return $this;
-    }
+    // public function makeMetaDatasAvailableAsProperty(): self
+    // {
+    //     if (!isset($this->metaDatas)) {
+    //         $this->metaDatasValues = [];
+    //     } else {
+    //         $this->metaDatasValues = $this->metaDatas;
+    //     }
+    //     return $this;
+    // }
 
-    public function getMetaDatasValuesAttribute(): array
-    {
-        if (!isset($this->metaDatasValues)) {
-            return [];
-        }
-        return $this->metaDatasValues;
-    }
+    // public function getMetaDatasAttribute(): array
+    // {
+    //     if (!isset($this->metaDatasValues)) {
+    //         return [];
+    //     }
+    //     return $this->metaDatasValues;
+    // }
 }

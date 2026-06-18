@@ -66,12 +66,12 @@
 export default {
   name: "PaginationRow",
   props: {
-    lastPage: Object,
-    currentPage: Object,
-    nextPageUrl: Object,
-    previousPageUrl: Object,
-    previousPageNumber: Object,
-    nextPageNumber: Object
+    lastPage: Number,
+    currentPage: Number,
+    nextPageUrl: String,
+    previousPageUrl: String,
+    previousPageNumber: Number,
+    nextPageNumber: Number
   },
   computed: {
     pageAction() {

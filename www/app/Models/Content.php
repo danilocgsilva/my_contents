@@ -19,10 +19,10 @@ class Content extends Model
     {
         $domainContent = app(ContentInterface::class);
         foreach ($this->metadata as $metaData) {
-            $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value);
+            $metaDataDomain = new DomainMetaData($metaData->meta_name, $metaData->value, $metaData->id);
             $domainContent->addMeta($metaDataDomain);
         }
-        $domainContent->makeMetaDatasAvailableAsProperty();
+        // $domainContent->makeMetaDatasAvailableAsProperty();
         return $domainContent;
     }
 

@@ -51,7 +51,7 @@ interface ContentRepositoryInterface extends PaginatableInterface
      * @param Content $content
      * @return void
      */
-    public function save(Content $content): void;
+    public function add(Content $content): void;
 
     /**
      * When retrieving contents, records the content's database ids as well.
@@ -59,4 +59,11 @@ interface ContentRepositoryInterface extends PaginatableInterface
      * @return void
      */
     public function rememberIds(): self;
+
+    /**
+     * Update the existing database content
+     * 
+     * @return void
+     */
+    public function update(Content $content): void;
 }

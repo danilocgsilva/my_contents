@@ -57,12 +57,12 @@ export default {
   },
   props: {
     contents: Object,
-    nextPageUrl: Object,
-    previousPageUrl: Object,
-    currentPage: Object,
-    lastPage: Object,
-    nextPageNumber: Object,
-    previousPageNumber: Object,
+    nextPageUrl: String,
+    previousPageUrl: String,
+    currentPage: Number,
+    lastPage: Number,
+    nextPageNumber: Number,
+    previousPageNumber: Number,
   },
   computed: {
     formattedContents() {

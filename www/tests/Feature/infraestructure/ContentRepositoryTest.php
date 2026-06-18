@@ -70,7 +70,7 @@ test('Save whole content with a meta tag', function () use (&$contentRepository)
     $metaData = new MetaData("name", "John Doe");
     $content->addMeta($metaData);
 
-    $contentRepository->save($content);
+    $contentRepository->add($content);
 
     $this->assertDatabaseCount('contents', 1);
     $this->assertDatabaseCount('metadata', 1);
@@ -131,4 +131,30 @@ test('Delete content', function() use (&$createEntry, &$contentRepository) {
     $firstEntry = $entries[0];
     $contentRepository->delete($firstEntry->id);
     $this->assertDatabaseCount('contents', 0);
+});
+
+test('Update content', function() use (&$createEntry, &$contentRepository) {
+    $createEntry();
+    $this->assertDatabaseCount('contents', 1);
+    $this->assertDatabaseCount('metadata', 1);
+    $entries = $contentRepository->rememberIds()->all();
+    /** @var Content $firstEntry */
+    $firstEntry = $entries[0];
+    $newMetaData = new MetaData("name", "Helena");
+    $firstEntry->addMeta($newMetaData);
+    $contentRepository->update($firstEntry);
+    $this->assertDatabaseCount('contents', 1);
+    $this->assertDatabaseCount('metadata', 2);
+});
+
+test('Get meta id from content', function() use (&$createEntry, &$contentRepository) {
+    DB::statement('ALTER TABLE metadata AUTO_INCREMENT = 1');
+
+    $createEntry();
+    $entries = $contentRepository->rememberIds()->all();
+    /** @var Content $firstEntry */
+    $firstEntry = $entries[0];
+    $metaDatas = $firstEntry->getMetas();
+    $metaData = $metaDatas[0];
+    $this->assertSame(1, $metaData->id);
 });

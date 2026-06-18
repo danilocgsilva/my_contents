@@ -19,5 +19,5 @@ interface ContentInterface
 
     public function getId(): int|null;
 
-    public function makeMetaDatasAvailableAsProperty(): self;
+    // public function makeMetaDatasAvailableAsProperty(): self;
 }

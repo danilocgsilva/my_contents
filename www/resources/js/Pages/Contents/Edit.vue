@@ -47,7 +47,7 @@
                 </tr>
               </thead>
               <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                <tr v-for="metadata in metadataList" :key="metadata.id">
+                <tr v-for="metadata in metadataList" :key="metadata.id" :class="{ 'opacity-50': metadata.deleted }">
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                     {{ metadata.name }}
                   </td>
@@ -55,9 +55,9 @@
                     {{ metadata.value }}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button type="button" @click="removeMetadata(metadata.id)"
+                    <button type="button" @click="toggleDelete(metadata.id)"
                       class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition">
-                      Remove
+                      {{ metadata.deleted ? 'Restore' : 'Remove' }}
                     </button>
                   </td>
                 </tr>
@@ -80,10 +80,6 @@
         </div>
       </form>
 
-
-
-
-
     </div>
   </AppLayout>
 </template>
@@ -100,7 +96,8 @@ export default {
     AddingMetaDataInput
   },
   props: {
-    content: Object
+    content: Object,
+    csrfToken: String
   },
   data() {
     return {
@@ -112,16 +109,14 @@ export default {
     }
   },
   mounted() {
-    console.log(this.content);
     if (this.content && this.content.metaDatasValues) {
       this.metadataList = this.content.metaDatasValues.map((meta, index) => ({
         id: index + 1, // or use a unique ID if available
         name: meta.metaName,
-        value: meta.metaValue
+        value: meta.metaValue,
+        deleted: false
       }));
       this.nextId = this.metadataList.length > 0 ? Math.max(...this.metadataList.map(m => m.id)) + 1 : 1;
-      console.log("Entrei!");
-      console.log(this.metadataList);
     }
   },
   methods: {
@@ -134,7 +129,8 @@ export default {
       this.metadataList.push({
         id: this.nextId++,
         name: this.localMetaName.trim(),
-        value: this.localMetaValue.trim() || this.localLongText.trim()
+        value: this.localMetaValue.trim() || this.localLongText.trim(),
+        deleted: false
       });
 
       this.localMetaName = '';
@@ -145,10 +141,10 @@ export default {
         this.localLongText = '';
       }
     },
-    removeMetadata(id) {
-      let answer = confirm("Are you sure you want to remove this metadata?");
-      if (answer) {
-        this.metadataList = this.metadataList.filter(metadata => metadata.id !== id);
+    toggleDelete(id) {
+      const metadata = this.metadataList.find(m => m.id === id);
+      if (metadata) {
+        metadata.deleted = !metadata.deleted;
       }
     },
     submitForm() {
@@ -157,8 +153,23 @@ export default {
         return;
       }
 
-      router.post('/contents', {
-        metadatas: this.metadataList.map(({ name, value }) => ({ name, value }))
+      const formData = this.metadataList.map(meta => ({
+        name: meta.name,
+        value: meta.value
+      })).filter(meta => !meta.deleted);
+
+      // router.post('/contents', {
+      //   metadatas: this.metadataList
+      //     .filter(metadata => !metadata.deleted)
+      //     .map(({ name, value }) => ({ name, value }))
+      // });
+
+      router.put(`/contents/${this.content.id}`, { data: formData }, {
+        onSuccess: () => {
+          this.$inertia.visit(route('contents.index'), {
+            onBefore: visit => visit.confirm('Are you sure you want to update the content?')
+          });
+        }
       });
     }
   }

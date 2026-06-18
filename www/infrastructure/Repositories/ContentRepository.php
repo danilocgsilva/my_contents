@@ -115,7 +115,7 @@ class ContentRepository implements ContentRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function save(DomainContent $content): void
+    public function add(DomainContent $content): void
     {
         $persistingModel = Content::create();
 
@@ -135,5 +135,12 @@ class ContentRepository implements ContentRepositoryInterface
     {
         $this->rememberIds = true;
         return $this;
+    }
+
+    public function update(DomainContent $domainContent): void
+    {
+        $contentId = $domainContent->id;
+        $dbContent = $this->find($contentId);
+        $dbContentMetaDatas = $dbContent->getMetas();
     }
 }

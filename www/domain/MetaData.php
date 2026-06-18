@@ -15,9 +15,12 @@ class MetaData
 {
     private readonly int $contentId;
 
+    // public readonly int|null $id;
+
     public function __construct(
         public readonly string $metaName,
-        public readonly string|int|DateTime $metaValue
+        public readonly string|int|DateTime $metaValue,
+        public readonly int|null $id = null
     ) {
     }
 
