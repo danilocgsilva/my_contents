@@ -16,7 +16,7 @@ class Content implements ContentInterface
      * 
      * @var MetaData[]
      */
-    private array $metaDatas;
+    public private(set) array $metaDatas;
 
     // /**
     //  * List of MetaDatas
@@ -49,10 +49,10 @@ class Content implements ContentInterface
         return $this;
     }
 
-    public function getMetas(): array
-    {
-        return $this->metaDatas;
-    }
+    // public function getMetas(): array
+    // {
+    //     return $this->metaDatas;
+    // }
 
     public function setId(int $id): self
     {

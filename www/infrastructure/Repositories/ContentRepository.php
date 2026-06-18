@@ -119,7 +119,7 @@ class ContentRepository implements ContentRepositoryInterface
     {
         $persistingModel = Content::create();
 
-        $contentMetaDatas = $content->getMetas();
+        $contentMetaDatas = $content->metaDatas;
         array_walk($contentMetaDatas, function (MetaData $metaData) use ($persistingModel) {
             $metaData->setContentId($persistingModel->id);
             $metaDataModel = $metaData->toModel();
@@ -141,6 +141,6 @@ class ContentRepository implements ContentRepositoryInterface
     {
         $contentId = $domainContent->id;
         $dbContent = $this->find($contentId);
-        $dbContentMetaDatas = $dbContent->getMetas();
+        $dbContentMetaDatas = $dbContent->metaDatas;
     }
 }

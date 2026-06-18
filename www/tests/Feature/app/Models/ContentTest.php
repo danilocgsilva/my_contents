@@ -44,6 +44,6 @@ test('toDomain() method also must brings the metadata', function () use (&$creat
     $createEntry();
     $content = Content::find(1);
     $contentMeta = $content->toDomain();
-    $metas = $contentMeta->getMetas();
+    $metas = $contentMeta->metaDatas;
     $this->assertIsArray($metas);
 });

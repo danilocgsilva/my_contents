@@ -23,7 +23,7 @@ class ContentsController extends Controller
             session(['pagination_number' => $request->query('page')]);
         }
         $paginationNumber = $request->query('page') ?? session('pagination_number', 1);
-        
+
         $viewPagination = new Pagination(
             $contentRepository
                 ->rememberIds()
@@ -61,7 +61,7 @@ class ContentsController extends Controller
                 $content->addMeta($metaData);
             }
             $content->persist();
-        }); 
+        });
 
         return redirect()->route('contents.index');
     }

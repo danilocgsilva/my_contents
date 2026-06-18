@@ -111,7 +111,7 @@ test('Check all metadatas are recovered after all method', function() use (&$cre
     $createEntry();
     $entries = $contentRepository->rememberIds()->all();
     $firstEntry = $entries[0];
-    $metas = $firstEntry->getMetas();
+    $metas = $firstEntry->metaDatas;
     $this->assertCount(1, $metas);
 });
 
@@ -119,7 +119,7 @@ test('Check all metadatas are recovered after paginate method', function() use (
     $createEntry();
     $entries = $contentRepository->rememberIds()->paginate(1, 10);
     $firstEntry = $entries[0];
-    $metas = $firstEntry->getMetas();
+    $metas = $firstEntry->metaDatas;
     $this->assertCount(1, $metas);
 });
 
@@ -154,7 +154,7 @@ test('Get meta id from content', function() use (&$createEntry, &$contentReposit
     $entries = $contentRepository->rememberIds()->all();
     /** @var Content $firstEntry */
     $firstEntry = $entries[0];
-    $metaDatas = $firstEntry->getMetas();
+    $metaDatas = $firstEntry->metaDatas;
     $metaData = $metaDatas[0];
     $this->assertSame(1, $metaData->id);
 });
