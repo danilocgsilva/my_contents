@@ -24,14 +24,13 @@
 
 <script setup lang="ts">
 
-interface Props {
+defineProps<{
   href: string
-}
+}>();
 
 defineOptions({
   name: "ButtonAnchor"
 });
 
-defineProps<Props>()
 
 </script>

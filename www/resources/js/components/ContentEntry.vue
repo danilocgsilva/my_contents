@@ -17,20 +17,14 @@
   </li>
 </template>
 
-<script>
+<script setup lang="ts">
 
-export default {
-  name: "ContentEntry",
-  props: {
-    metaDatas: {
-      type: Array,
-      required: true,
-    },
-    content: {
-      type: Object,
-      required: true,
-    },
-  }
-};
+import { MetaData } from '../types/MetaData';
+import { Content } from '../types/Content';
+
+defineProps<{
+  metaDatas: MetaData[];
+  content: Content;
+}>();
 
 </script>
