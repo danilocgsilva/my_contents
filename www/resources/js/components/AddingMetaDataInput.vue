@@ -33,8 +33,11 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+
+import { defineComponent, type PropType } from 'vue'
+
+export default defineComponent({
   name: 'AddingMetaDataInput',
   data() {
     return {
@@ -43,17 +46,17 @@ export default {
   },
   props: {
     metaName: {
-      type: String,
-      required: true,
+      type: String as PropType<string>,
+      required: true
     },
     metaValue: {
-      type: String,
+      type: String as PropType<string>,
       required: false
     },
     longText: {
-      type: String,
+      type: String as PropType<string>,
       required: false
     }
   }
-}
+})
 </script>

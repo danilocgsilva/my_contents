@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 export default {
   name: "ContentEntry",
   props: {
@@ -31,4 +32,5 @@ export default {
     },
   }
 };
+
 </script>

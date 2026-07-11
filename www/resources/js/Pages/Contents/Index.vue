@@ -9,27 +9,7 @@
         <ContentEntry v-for="content in formattedContents" :content="content" :key="content.id"
           :metaDatas="content.metadata">
           <template #actions>
-            <a :href="route('contents.show', { content: content.id })" type="button" class="
-          w-full 
-          sm:w-auto 
-          px-6 py-2 
-          bg-blue-600 
-          text-white 
-          rounded-lg 
-          hover:bg-blue-700 
-          focus:outline-none 
-          focus:ring-2
-          focus:ring-blue-500 
-          focus:ring-offset-2 
-          focus:ring-offset-white 
-          dark:focus:ring-offset-gray-800 
-          transition 
-          flex 
-          items-center 
-          gap-2
-        ">
-              Manage
-            </a>
+            <ButtonAnchor :href="route('contents.show', { content: content.id })"></ButtonAnchor>
           </template>
         </ContentEntry>
       </ul>
@@ -37,9 +17,7 @@
       <PaginationRow :lastPage="lastPage" :currentPage="currentPage" :nextPageUrl="nextPageUrl"
         :previousPageUrl="previousPageUrl" :nextPageNumber="nextPageNumber" :previousPageNumber="previousPageNumber">
       </PaginationRow>
-
     </div>
-
   </AppLayout>
 </template>
 
@@ -47,6 +25,7 @@
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ContentEntry from '../../components/ContentEntry.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
+import ButtonAnchor from '../../components/ButtonAnchor.vue';
 
 export default {
   name: 'ContentsIndex',
@@ -54,6 +33,7 @@ export default {
     AppLayout,
     ContentEntry,
     PaginationRow,
+    ButtonAnchor
   },
   props: {
     contents: Object,

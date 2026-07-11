@@ -18,18 +18,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'MetaDataAdded',
-  props: {
-    name: {
-      type: String,
-      required: true
-    },
-    value: {
-      type: String,
-      required: true
-    }
-  }
+<script setup lang="ts">
+
+defineOptions({
+  name: "MetaDataAdded"
+});
+
+interface Props {
+  name: string,
+  value: string
 }
+
+defineProps<Props>();
+
+defineEmits<{
+  remove: []
+}>();
+
 </script>

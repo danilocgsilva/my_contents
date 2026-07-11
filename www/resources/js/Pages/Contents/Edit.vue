@@ -158,12 +158,6 @@ export default {
         value: meta.value
       })).filter(meta => !meta.deleted);
 
-      // router.post('/contents', {
-      //   metadatas: this.metadataList
-      //     .filter(metadata => !metadata.deleted)
-      //     .map(({ name, value }) => ({ name, value }))
-      // });
-
       router.put(`/contents/${this.content.id}`, { data: formData }, {
         onSuccess: () => {
           this.$inertia.visit(route('contents.index'), {
