@@ -85,6 +85,7 @@
 </template>
 
 <script>
+
 import AppLayout from '../../Layouts/AppLayout.vue'
 import AddingMetaDataInput from '../../components/AddingMetaDataInput.vue';
 import { router } from '@inertiajs/vue3';
@@ -168,4 +169,5 @@ export default {
     }
   }
 }
+
 </script>

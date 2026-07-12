@@ -18,7 +18,7 @@
           items-center 
           gap-2
         ">
-    Manage
+    <slot />
   </a>
 </template>
 

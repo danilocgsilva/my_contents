@@ -9,7 +9,9 @@
         <ContentEntry v-for="content in formattedContents" :content="content" :key="content.id"
           :metaDatas="content.metadata">
           <template #actions>
-            <ButtonAnchor :href="route('contents.show', { content: content.id })"></ButtonAnchor>
+            <ButtonAnchor :href="route('contents.show', { content: content.id })">
+              Details
+            </ButtonAnchor>
           </template>
         </ContentEntry>
       </ul>
@@ -22,6 +24,7 @@
 </template>
 
 <script>
+
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ContentEntry from '../../components/ContentEntry.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
@@ -56,4 +59,5 @@ export default {
     }
   }
 }
+
 </script>
