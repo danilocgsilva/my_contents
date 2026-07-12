@@ -62,21 +62,27 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "PaginationRow",
-  props: {
-    lastPage: Number,
-    currentPage: Number,
-    nextPageUrl: String,
-    previousPageUrl: String,
-    previousPageNumber: Number,
-    nextPageNumber: Number
-  },
-  computed: {
-    pageAction() {
-      return window.location.pathname
-    }
-  }
+<script setup lang="ts">
+
+import { computed, defineComponent } from 'vue'
+
+interface Props {
+  lastPage: number
+  currentPage: number
+  nextPageUrl: string
+  previousPageUrl: string
+  previousPageNumber: number
+  nextPageNumber: number
 }
+
+const props = defineProps<Props>()
+
+defineComponent({
+  name: 'PaginationRow'
+});
+
+const pageAction = computed(() => {
+  return window.location.pathname
+})
+
 </script>

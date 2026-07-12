@@ -10,23 +10,9 @@
   <ContentEntry :content="formattedContent" :metaDatas="formattedContent.metadata">
     <template #actions>
       <div class="flex items-center gap-2">
-        <a :href="route('contents.edit', { content: content })" class="
-          px-6 py-2 
-          bg-blue-600 
-          text-white 
-          rounded-lg 
-          hover:bg-blue-700 
-          focus:outline-none 
-          focus:ring-2
-          focus:ring-blue-500 
-          focus:ring-offset-2 
-          focus:ring-offset-white 
-          dark:focus:ring-offset-gray-800 
-          transition 
-          flex 
-          items-center 
-          gap-2
-        ">Edit</a>
+        <ButtonAnchor :href="route('contents.edit', { content: content })">
+          Edit
+        </ButtonAnchor>
         <form :action="route('contents.destroy', { content: content.id })" method="POST"
           @submit.prevent="confirmDelete" class="inline-block">
           <input type="hidden" name="_method" value="DELETE">
@@ -63,15 +49,18 @@
 </template>
 
 <script>
+
 import { route } from 'ziggy-js';
 import AppLayout from '../../Layouts/AppLayout.vue';
 import ContentEntry from '../../components/ContentEntry.vue';
+import ButtonAnchor from '../../components/ButtonAnchor.vue';
 
 export default {
   name: 'ContentsShow',
   components: {
     AppLayout,
-    ContentEntry
+    ContentEntry,
+    ButtonAnchor
   },
   props: {
     content: Object,
