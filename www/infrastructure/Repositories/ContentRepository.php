@@ -140,7 +140,19 @@ class ContentRepository implements ContentRepositoryInterface
     public function update(DomainContent $domainContent): void
     {
         $contentId = $domainContent->id;
-        $dbContent = $this->find($contentId);
-        $dbContentMetaDatas = $dbContent->metaDatas;
+        $dbContent = Content::find($contentId);
+
+        foreach ($dbContent->metadata as $metadata) {
+            $metadata->valueable()->delete();
+            $metadata->delete();
+        }
+
+        foreach ($domainContent->metaDatas as $metaData) {
+            $metaData->setContentId($dbContent->id);
+            $metaDataModel = $metaData->toModel();
+            $metaDataValueModel = $metaDataModel->valueable;
+            $metaDataValueModel->save();
+            $metaDataValueModel->metadata()->save($metaDataModel);
+        }
     }
 }

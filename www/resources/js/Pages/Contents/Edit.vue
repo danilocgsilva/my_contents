@@ -110,8 +110,8 @@ export default {
     }
   },
   mounted() {
-    if (this.content && this.content.metaDatasValues) {
-      this.metadataList = this.content.metaDatasValues.map((meta, index) => ({
+    if (this.content && this.content.metaDatas) {
+      this.metadataList = this.content.metaDatas.map((meta, index) => ({
         id: index + 1, // or use a unique ID if available
         name: meta.metaName,
         value: meta.metaValue,
@@ -154,18 +154,11 @@ export default {
         return;
       }
 
-      const formData = this.metadataList.map(meta => ({
-        name: meta.name,
-        value: meta.value
-      })).filter(meta => !meta.deleted);
+      const metadatas = this.metadataList
+        .filter(meta => !meta.deleted)
+        .map(meta => ({ name: meta.name, value: meta.value }));
 
-      router.put(`/contents/${this.content.id}`, { data: formData }, {
-        onSuccess: () => {
-          this.$inertia.visit(route('contents.index'), {
-            onBefore: visit => visit.confirm('Are you sure you want to update the content?')
-          });
-        }
-      });
+      router.put(`/contents/${this.content.id}`, { metadatas }, {});
     }
   }
 }

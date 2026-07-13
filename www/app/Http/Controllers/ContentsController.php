@@ -10,7 +10,6 @@ use App\Http\Requests\ContentRequest;
 use App\Models\Content;
 use Domain\Interfaces\ContentRepositoryInterface;
 use App\Views\Pagination;
-use Domain\MetaData;
 
 class ContentsController extends Controller
 {
@@ -86,6 +85,7 @@ class ContentsController extends Controller
      */
     public function edit(Content $content)
     {
+        $content->load('metadata');
         $content = $content->toDomainWithIds();
         return Inertia::render('Contents/Edit', [
             'content' => $content,
@@ -96,19 +96,19 @@ class ContentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, Content $content)
-    // {
-    //     $content = $content->toDomainWithIds();
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(ContentRequest $request, Content $content)
+    public function update(ContentRequest $request, Content $content, ContentRepositoryInterface $contentRepository)
     {
+        $domainContent = app(ContentInterface::class);
+        $domainContent->setId($content->id);
+
         foreach ($request->getMetaDatas() as $metaData) {
-            $var = $metaData;
+            $domainContent->addMeta($metaData);
         }
+
+        DB::transaction(function () use ($contentRepository, $domainContent) {
+            $contentRepository->update($domainContent);
+        });
+
         return redirect()->route('contents.index')->with('success', 'Content updated successfully');
     }
 
