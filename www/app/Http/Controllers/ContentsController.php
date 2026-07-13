@@ -30,8 +30,10 @@ class ContentsController extends Controller
                 ->paginateWithLengthAware($paginationNumber, 10)
         );
 
+        $contentsItems = $viewPagination->items;
+
         return Inertia::render('Contents/Index', [
-            'contents' => $viewPagination->items,
+            'contents' => $contentsItems,
             'nextPageUrl' => $viewPagination->nextPageUrl,
             'previousPageUrl' => $viewPagination->previousPageUrl,
             'currentPage' => $viewPagination->currentPage,

@@ -6,8 +6,12 @@
         Contents Index Page
       </h1>
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-        <ContentEntry v-for="content in formattedContents" :content="content" :key="content.id"
-          :metaDatas="content.metadata">
+        <ContentEntry
+          v-for="content in formattedContents" 
+          :content="content"
+          :key="content.id"
+          :metaDatas="content.metadata"
+        >
           <template #actions>
             <ButtonAnchor :href="route('contents.show', { content: content.id })">
               Details
@@ -23,14 +27,25 @@
   </AppLayout>
 </template>
 
-<script>
+<script lang="ts">
 
+import { defineComponent } from 'vue'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ContentEntry from '../../components/ContentEntry.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
 import ButtonAnchor from '../../components/ButtonAnchor.vue';
 
-export default {
+interface Content {
+  id: number;
+  metaDatas: any;
+}
+
+interface FormattedContent {
+  id: number;
+  metadata: any; 
+}
+
+export default defineComponent({
   name: 'ContentsIndex',
   components: {
     AppLayout,
@@ -39,25 +54,43 @@ export default {
     ButtonAnchor
   },
   props: {
-    contents: Object,
-    nextPageUrl: String,
-    previousPageUrl: String,
-    currentPage: Number,
-    lastPage: Number,
-    nextPageNumber: Number,
-    previousPageNumber: Number,
+    contents: {
+      type: Object as () => Content[],
+      required: true
+    },
+    nextPageUrl: {
+      type: String,
+      default: null
+    },
+    previousPageUrl: {
+      type: String,
+      default: null
+    },
+    currentPage: {
+      type: Number,
+      required: true
+    },
+    lastPage: {
+      type: Number,
+      required: true
+    },
+    nextPageNumber: {
+      type: Number,
+      default: null
+    },
+    previousPageNumber: {
+      type: Number,
+      default: null
+    },
   },
   computed: {
-    formattedContents() {
-      let formattedContentsObj = this.contents.map(content => {
-        return {
-          id: content.id,
-          metadata: content.metaDatas
-        }
-      })
-      return formattedContentsObj;
+    formattedContents(): FormattedContent[] {
+      return this.contents.map(content => ({
+        id: content.id,
+        metadata: content.metaDatas
+      }));
     }
   }
-}
+})
 
 </script>
