@@ -69,10 +69,10 @@ import { computed, defineComponent } from 'vue'
 interface Props {
   lastPage: number
   currentPage: number
-  nextPageUrl: string
-  previousPageUrl: string
-  previousPageNumber: number
-  nextPageNumber: number
+  nextPageUrl?: string
+  previousPageUrl?: string
+  previousPageNumber?: number
+  nextPageNumber?: number
 }
 
 const props = defineProps<Props>()

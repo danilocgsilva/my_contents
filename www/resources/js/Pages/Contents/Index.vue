@@ -7,10 +7,10 @@
       </h1>
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
         <ContentEntry
-          v-for="content in formattedContents" 
+          v-for="content in contents" 
           :content="content"
           :key="content.id"
-          :metaDatas="content.metadata"
+          :metaDatas="content.metaDatas"
         >
           <template #actions>
             <ButtonAnchor :href="route('contents.show', { content: content.id })">
@@ -30,19 +30,16 @@
 <script lang="ts">
 
 import { defineComponent } from 'vue'
+import { route } from 'ziggy-js'
 import AppLayout from '../../Layouts/AppLayout.vue'
 import ContentEntry from '../../components/ContentEntry.vue'
 import PaginationRow from '../../components/PaginationRow.vue';
 import ButtonAnchor from '../../components/ButtonAnchor.vue';
+import { MetaData } from '../../types/MetaData.ts';
 
 interface Content {
   id: number;
-  metaDatas: any;
-}
-
-interface FormattedContent {
-  id: number;
-  metadata: any; 
+  metaDatas: MetaData[];
 }
 
 export default defineComponent({
@@ -83,13 +80,8 @@ export default defineComponent({
       default: null
     },
   },
-  computed: {
-    formattedContents(): FormattedContent[] {
-      return this.contents.map(content => ({
-        id: content.id,
-        metadata: content.metaDatas
-      }));
-    }
+  methods: {
+    route
   }
 })
 

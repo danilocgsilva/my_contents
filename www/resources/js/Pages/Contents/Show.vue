@@ -7,7 +7,7 @@
       </h1>
 
       <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-        <ContentEntry :content="content" :metaDatas="content.metadata">
+        <ContentEntry :content="content" :metaDatas="content.metaDatas">
           <template #actions>
             <div class="flex items-center gap-2">
               <ButtonAnchor :href="route('contents.edit', { content: content })">
@@ -17,7 +17,7 @@
                 @submit.prevent="confirmDelete" class="inline-block">
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" :value="csrfToken">
-                <Button :type="submit" variant="danger">Delete</Button>
+                <Button type="submit" variant="danger">Delete</Button>
               </form>
             </div>
           </template>

@@ -85,6 +85,7 @@
 </template>
 
 <script>
+
 import AppLayout from '../../Layouts/AppLayout.vue'
 import AddingMetaDataInput from '../../components/AddingMetaDataInput.vue';
 import { router } from '@inertiajs/vue3';
@@ -138,25 +139,15 @@ export default {
         return;
       }
 
-      const formData = this.metadataList.map(meta => ({
-        name: meta.name,
-        value: meta.value
-      })).filter(meta => !meta.deleted);
+      const formData = this.metadataList
+        .filter(meta => !meta.deleted)
+        .map(meta => ({ name: meta.name, value: meta.value }));
 
-      // router.post('/contents', {
-      //   metadatas: this.metadataList
-      //     .filter(metadata => !metadata.deleted)
-      //     .map(({ name, value }) => ({ name, value }))
-      // });
-
-      router.put(this.content.path, { data: formData }, {
-        onSuccess: () => {
-          this.$inertia.visit(route('contents.index'), {
-            onBefore: visit => visit.confirm('Are you sure you want to update the content?')
-          });
-        }
+      router.post(route('contents.store'), { metadatas: formData }, {
+        onSuccess: () => router.visit(route('contents.index'))
       });
     }
   }
 }
+
 </script>
